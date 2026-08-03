@@ -1049,3 +1049,180 @@ a[aria-current="page"] {
       repeat(3, minmax(0, 1fr));
   }
 }
+
+/* H6B-R7: fotografía, detalles y catálogo compacto */
+
+.welcome-photo-slot--ready {
+  overflow: hidden;
+  border: 1px solid var(--accent-metallic-border);
+  border-radius: var(--radius-xl);
+  background: var(--surface-card);
+  box-shadow: var(--shadow-soft);
+}
+
+.welcome-photo-slot__image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  min-height: 100%;
+  object-fit: cover;
+  object-position: center 40%;
+}
+
+.practical-location-card {
+  align-content: start;
+}
+
+.gift-option--variant {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  align-content: start;
+  gap: 0.45rem;
+}
+
+.gift-option__name {
+  color: var(--text-primary);
+  font-size: var(--font-size-small);
+  line-height: var(--line-height-heading);
+}
+
+.gift-option__variant-label,
+.gift-option__variant-note {
+  color: var(--text-secondary);
+  font-size: var(--font-size-label);
+}
+
+.gift-option__variant-select {
+  width: 100%;
+  min-height: 2.75rem;
+  padding: 0.5rem 0.55rem;
+  font-size: var(--font-size-small);
+}
+
+.gift-option__variant-counters[hidden],
+.gift-option__counter[hidden] {
+  display: none;
+}
+
+@media (max-width: 899px) {
+  .details-section {
+    align-content: start;
+    padding-block:
+      max(
+        0.75rem,
+        env(safe-area-inset-top)
+      )
+      max(
+        0.75rem,
+        env(safe-area-inset-bottom)
+      );
+  }
+
+  .details-section .section-heading {
+    margin-block-end:
+      clamp(
+        0.75rem,
+        2dvh,
+        1.25rem
+      );
+  }
+
+  .event-summary--details {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+    gap: clamp(
+      0.55rem,
+      1.6vw,
+      0.85rem
+    );
+    width: 100%;
+  }
+
+  .event-summary--details
+    .event-block--date,
+  .event-summary--details
+    .event-block--time {
+    min-height: clamp(
+      7rem,
+      17dvh,
+      9rem
+    );
+    padding-inline-start: 3.4rem;
+  }
+
+  .event-summary--details
+    .event-block__value {
+    font-size: clamp(
+      1.25rem,
+      5.2vw,
+      1.8rem
+    );
+  }
+
+  .event-summary--details
+    .event-block--location-wide {
+    grid-column: 1 / -1;
+    min-height: 0;
+    padding-block:
+      var(--space-3);
+  }
+
+  .event-summary--details
+    .event-block__value--address {
+    font-size: clamp(
+      0.92rem,
+      3.8vw,
+      1.08rem
+    );
+  }
+
+  .event-summary--details
+    .event-block__map {
+    width: 100%;
+  }
+
+  .welcome-photo-slot--ready {
+    min-height: 0;
+  }
+
+  .gift-grid {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+    gap: 0.6rem;
+  }
+
+  .gift-option {
+    min-width: 0;
+    padding: 0.65rem;
+  }
+
+  .gift-option--basic {
+    grid-template-columns:
+      2rem minmax(0, 1fr);
+    align-content: start;
+  }
+
+  .gift-option__content strong {
+    font-size: var(--font-size-small);
+    line-height: var(--line-height-heading);
+  }
+
+  .gift-option__content small {
+    font-size: var(--font-size-label);
+    line-height: var(--line-height-heading);
+  }
+}
+
+@media (max-width: 360px) {
+  .gift-grid {
+    grid-template-columns:
+      minmax(0, 1fr);
+  }
+}
+
+@media (min-width: 700px) {
+  .gift-grid {
+    grid-template-columns:
+      repeat(3, minmax(0, 1fr));
+  }
+}

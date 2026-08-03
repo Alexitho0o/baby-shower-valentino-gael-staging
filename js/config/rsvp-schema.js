@@ -1,5 +1,6 @@
 import {
   GIFT_CATALOG_CONFIG,
+  GIFT_SELECTION_KEYS,
   GIFT_SELECTION_VALUES,
 } from "./gift-catalog.config.js";
 
@@ -19,7 +20,7 @@ export const RSVP_ATTENDANCE_VALUES = Object.freeze({
 });
 
 export const RSVP_SCHEMA = Object.freeze({
-  schemaVersion: 3,
+  schemaVersion: 4,
   fields: Object.freeze({
     fullName: Object.freeze({
       name: RSVP_FIELD_NAMES.fullName,
@@ -57,10 +58,9 @@ export const RSVP_SCHEMA = Object.freeze({
       name: RSVP_FIELD_NAMES.giftSelections,
       type: "array",
       required: false,
-      maxItems: GIFT_CATALOG_CONFIG.items.length,
-      values: Object.freeze(
-        Object.values(GIFT_SELECTION_VALUES),
-      ),
+      maxItems:
+        GIFT_CATALOG_CONFIG.items.length,
+      values: GIFT_SELECTION_KEYS,
     }),
     otherGift: Object.freeze({
       name: RSVP_FIELD_NAMES.otherGift,
@@ -83,15 +83,23 @@ export const RSVP_SCHEMA = Object.freeze({
     adultTotalIncludesRespondent: true,
     companionNamesCollected: false,
     giftSelectionOptional: true,
+    giftSelectionKeyMode:
+      "item_or_item_variant",
+    sizedGiftCountersAreIndependent:
+      true,
     giftCatalogReferenceLimit:
-      GIFT_CATALOG_CONFIG.maxReservationsPerCatalogItem,
+      GIFT_CATALOG_CONFIG
+        .maxReservationsPerCatalogItem,
     giftClosureMode:
-      GIFT_CATALOG_CONFIG.governance.closureMode,
+      GIFT_CATALOG_CONFIG
+        .governance
+        .closureMode,
   }),
   pendingBusinessRules: Object.freeze([
-    "El contador real de regalos requiere persistencia Supabase.",
-    "El cierre de una alternativa será una decisión administrativa.",
-    "El PDF permanecerá deshabilitado hasta recibir el archivo aprobado.",
-    "El álbum permanecerá deshabilitado hasta recibir el enlace aprobado.",
+    "El contador real requiere persistencia Supabase.",
+    "Cada talla utilizará una reservation key independiente.",
+    "El cierre de una alternativa será administrativo.",
+    "El PDF permanecerá deshabilitado hasta recibir el archivo.",
+    "El álbum permanecerá deshabilitado hasta recibir el enlace.",
   ]),
 });

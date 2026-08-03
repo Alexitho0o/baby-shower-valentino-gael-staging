@@ -26,8 +26,7 @@
             <span class="invite-name__sub" data-event-text="child.secondaryName">GAEL BURGOS LEÓN</span>
           </h1>
           <p class="cover-copy">
-            Acompáñanos a celebrar la llegada de nuestro pequeño
-            <span data-event-text="child.displayName">Valentino Gael</span>.
+            Acompáñanos a celebrar la llegada de nuestro pequeño.
           </p>
           <div class="cover-summary" aria-label="Datos confirmados del evento">
             <div class="cover-chip">
@@ -68,7 +67,7 @@
       </header>
 
       <main id="contenido">
-        <section id="detalles" class="site-section ds-shell" aria-labelledby="resumen-title" data-route-section="#/detalles">
+        <section id="detalles" class="site-section ds-shell details-section" aria-labelledby="resumen-title" data-route-section="#/detalles">
           <div class="section-heading section-heading--center">
             <p class="ds-kicker">Detalles confirmados</p>
             <h2 id="resumen-title" class="details-title" tabindex="-1">
@@ -76,7 +75,7 @@
               <span class="details-title__name" data-event-text="child.fullName">Valentino Gael Burgos León</span>
             </h2>
           </div>
-          <div class="event-summary" aria-label="Resumen del evento">
+          <div class="event-summary event-summary--details" aria-label="Resumen del evento">
             <article class="event-block event-block--icon event-block--date">
               <span class="event-block__label">Fecha</span>
               <span class="event-block__value" data-event-text="date.display">31 de octubre</span>
@@ -85,7 +84,7 @@
               <span class="event-block__label">Horario</span>
               <span class="event-block__value" data-event-text="schedule.display">12:00 a 19:00 hrs.</span>
             </article>
-            <article class="event-block event-block--icon event-block--location">
+            <article class="event-block event-block--icon event-block--location event-block--location-wide">
               <span class="event-block__label">Ubicación</span>
               <span class="event-block__value event-block__value--address" data-event-text="location.address">Pedro Víctor Contreras 2447, Villa Alemana, Región de Valparaíso</span>
               <a
@@ -126,14 +125,16 @@
   </div>
 
   <figure
-    class="welcome-photo-slot"
-    aria-label="Espacio reservado para una fotografía"
-    data-photo-placeholder
+    class="welcome-photo-slot welcome-photo-slot--ready"
+    aria-label="Fotografía familiar"
   >
-    <div class="welcome-photo-slot__frame" aria-hidden="true">
-      <span class="welcome-photo-slot__mark"></span>
-    </div>
-    <figcaption>Fotografía familiar · pendiente de incorporar</figcaption>
+    <img
+      class="welcome-photo-slot__image"
+      src="assets/images/familia-valentino.jpg"
+      alt="Fotografía de la familia de Valentino Gael"
+      loading="lazy"
+      decoding="async"
+    >
   </figure>
 </section>
 
@@ -143,13 +144,16 @@
     <h2 id="practica-title">Para tener presente</h2>
   </div>
 
-  <div class="practical-grid practical-grid--extended">
-    <article class="card">
-      <span class="badge">Evento</span>
-      <h3>Baby Shower</h3>
+  <div class="practical-grid practical-grid--extended">    <article class="card practical-location-card">
+      <span class="badge">Ubicación</span>
+      <h3>Tips para estacionarse y llegar</h3>
       <p>
-        Te invitamos al Baby Shower de
-        <span data-event-text="child.fullName">Valentino Gael Burgos León</span>.
+        El lugar no cuenta con estacionamiento propio. Al frente hay un
+        terreno disponible para estacionar.
+      </p>
+      <p>
+        Como alternativa, una calle antes de llegar, en Irene Frei, se puede
+        estacionar en ambos sentidos.
       </p>
     </article>
 
@@ -284,10 +288,10 @@
               </div>
 
               <p class="message message--warning" data-gift-status>
-                Vista previa: el contador automático se activará junto con la
-                confirmación en línea. Cada alternativa tendrá una referencia
-                de diez selecciones; al alcanzar ese nivel quedará marcada para
-                revisión y solo la administración del evento podrá cerrarla.
+                Vista previa: cada regalo tendrá su propio contador. En las
+                prendas, cada talla se contabilizará de forma independiente.
+                Los conteos reales se activarán junto con la confirmación en
+                línea y solo la administración podrá cerrar una alternativa.
               </p>
             </section>
 

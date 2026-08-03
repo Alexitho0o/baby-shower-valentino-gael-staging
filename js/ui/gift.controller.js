@@ -9,7 +9,27 @@ import {
   queryRequired,
 } from "../utils/dom.js";
 
-const createGiftOption = (item) => {
+const createCounter = (
+  reservationKey,
+) => {
+  const counter =
+    document.createElement("small");
+
+  counter.className =
+    "gift-option__counter";
+  counter.dataset.giftCounter =
+    reservationKey;
+  counter.hidden = true;
+  counter.textContent =
+    "Conteo todavía no disponible.";
+
+  return counter;
+};
+
+const createBasicOption = (
+  item,
+  counterRuntimeEnabled,
+) => {
   const label =
     document.createElement("label");
   const input =
@@ -21,9 +41,10 @@ const createGiftOption = (item) => {
   const note =
     document.createElement("small");
   const counter =
-    document.createElement("small");
+    createCounter(item.id);
 
-  label.className = "gift-option";
+  label.className =
+    "gift-option gift-option--basic";
 
   input.type = "checkbox";
   input.name =
@@ -34,19 +55,16 @@ const createGiftOption = (item) => {
 
   content.className =
     "gift-option__content";
+
   name.textContent = item.label;
 
   note.textContent =
     item.capacity === null
       ? "Escribe tu idea para evitar repeticiones."
-      : `Contador automático pendiente · referencia ${item.capacity}.`;
+      : "Contador individual pendiente de activación.";
 
-  counter.className =
-    "gift-option__counter";
-  counter.dataset.giftCounter = item.id;
-  counter.hidden = true;
-  counter.textContent =
-    "Conteo todavía no disponible.";
+  counter.hidden =
+    !counterRuntimeEnabled;
 
   content.append(
     name,
@@ -61,6 +79,117 @@ const createGiftOption = (item) => {
 
   return label;
 };
+
+const createVariantOption = (
+  item,
+  counterRuntimeEnabled,
+) => {
+  const card =
+    document.createElement("div");
+  const heading =
+    document.createElement("strong");
+  const label =
+    document.createElement("label");
+  const select =
+    document.createElement("select");
+  const emptyOption =
+    document.createElement("option");
+  const note =
+    document.createElement("small");
+  const counters =
+    document.createElement("div");
+
+  const selectId =
+    `gift-${item.id}-size`;
+
+  card.className =
+    "gift-option gift-option--variant";
+
+  heading.className =
+    "gift-option__name";
+  heading.textContent =
+    item.label;
+
+  label.className =
+    "gift-option__variant-label";
+  label.htmlFor = selectId;
+  label.textContent = "Talla";
+
+  select.className =
+    "select gift-option__variant-select";
+  select.id = selectId;
+  select.name =
+    RSVP_FIELD_NAMES.giftSelections;
+  select.dataset.rsvpField =
+    RSVP_FIELD_NAMES.giftSelections;
+  select.dataset.giftVariant =
+    item.id;
+
+  emptyOption.value = "";
+  emptyOption.textContent =
+    "Selecciona talla";
+
+  select.append(emptyOption);
+
+  item.variants.forEach(
+    (variant) => {
+      const option =
+        document.createElement("option");
+
+      option.value =
+        variant.reservationKey;
+      option.textContent =
+        variant.label;
+
+      select.append(option);
+    },
+  );
+
+  note.className =
+    "gift-option__variant-note";
+  note.textContent =
+    "Cada talla tendrá un contador independiente.";
+
+  counters.className =
+    "gift-option__variant-counters";
+  counters.hidden =
+    !counterRuntimeEnabled;
+
+  item.variants.forEach(
+    (variant) => {
+      counters.append(
+        createCounter(
+          variant.reservationKey,
+        ),
+      );
+    },
+  );
+
+  card.append(
+    heading,
+    label,
+    select,
+    note,
+    counters,
+  );
+
+  return card;
+};
+
+const createGiftOption = (
+  item,
+  counterRuntimeEnabled,
+) => (
+  item.variants.length > 0
+    ? createVariantOption(
+        item,
+        counterRuntimeEnabled,
+      )
+    : createBasicOption(
+        item,
+        counterRuntimeEnabled,
+      )
+);
 
 export const createGiftController = ({
   form,
@@ -87,7 +216,10 @@ export const createGiftController = ({
 
   catalog.items.forEach((item) => {
     fragment.append(
-      createGiftOption(item),
+      createGiftOption(
+        item,
+        catalog.counterRuntimeEnabled,
+      ),
     );
   });
 
