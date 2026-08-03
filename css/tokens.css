@@ -1,0 +1,261 @@
+:root {
+  --color-black: #000000;
+  --color-white: #ffffff;
+  --color-navy-900: #12263f;
+  --color-navy-700: #244765;
+  --color-navy-100: #e7eef4;
+  --color-blue-700: #447d9c;
+  --color-blue-500: #73a9c7;
+  --color-blue-300: #b8d9eb;
+  --color-blue-100: #eaf5fb;
+  --color-cream-100: #fffdf8;
+  --color-cream-200: #f8f2e8;
+  --color-cream-300: #efe5d4;
+  --color-ink-900: #182432;
+  --color-ink-600: #536372;
+  --color-success: #26735b;
+  --color-warning: #9a681c;
+  --color-error: #a53d45;
+  --color-metallic-base: #EFB810;
+
+  --color-metallic-strong: color-mix(
+    in srgb,
+    var(--color-metallic-base) 76%,
+    var(--color-black)
+  );
+  --color-metallic-medium: color-mix(
+    in srgb,
+    var(--color-metallic-base) 84%,
+    var(--color-white)
+  );
+  --color-metallic-light: color-mix(
+    in srgb,
+    var(--color-metallic-base) 42%,
+    var(--color-white)
+  );
+  --color-metallic-soft: color-mix(
+    in srgb,
+    var(--color-metallic-base) 18%,
+    transparent
+  );
+  --color-metallic-border: color-mix(
+    in srgb,
+    var(--color-metallic-base) 38%,
+    transparent
+  );
+  --color-metallic-glow: color-mix(
+    in srgb,
+    var(--color-metallic-base) 26%,
+    transparent
+  );
+  --color-metallic-shadow: color-mix(
+    in srgb,
+    var(--color-metallic-base) 20%,
+    transparent
+  );
+
+  --surface-page: var(--color-cream-100);
+  --surface-page-bottom: var(--color-cream-200);
+  --surface-alt: var(--color-blue-100);
+  --surface-card: color-mix(in srgb, var(--color-white) 88%, transparent);
+  --surface-card-solid: var(--color-white);
+  --surface-elevated: var(--color-white);
+  --surface-cream-soft: color-mix(in srgb, var(--color-cream-100) 82%, transparent);
+  --surface-blue-soft: color-mix(in srgb, var(--color-blue-100) 78%, transparent);
+  --surface-blue-medium: color-mix(in srgb, var(--color-blue-300) 62%, transparent);
+  --surface-disabled: color-mix(in srgb, var(--color-ink-600) 12%, transparent);
+  --surface-overlay: color-mix(in srgb, var(--color-white) 84%, transparent);
+
+  --text-primary: var(--color-ink-900);
+  --text-secondary: var(--color-ink-600);
+  --text-inverse: var(--color-white);
+  --text-on-metallic: var(--color-navy-900);
+  --text-success: color-mix(in srgb, var(--color-success) 72%, var(--color-black));
+  --text-warning: color-mix(in srgb, var(--color-warning) 74%, var(--color-black));
+  --text-error: color-mix(in srgb, var(--color-error) 72%, var(--color-black));
+  --text-disabled: color-mix(in srgb, var(--color-ink-600) 48%, transparent);
+
+  --border-subtle: color-mix(in srgb, var(--color-navy-900) 14%, transparent);
+  --border-strong: color-mix(in srgb, var(--color-navy-900) 28%, transparent);
+  --border-blue: color-mix(in srgb, var(--color-blue-500) 34%, transparent);
+  --border-cream: color-mix(in srgb, var(--color-cream-300) 72%, transparent);
+  --border-disabled: color-mix(in srgb, var(--color-ink-600) 14%, transparent);
+
+  --action-primary: var(--color-navy-900);
+  --action-primary-hover: color-mix(in srgb, var(--color-navy-900) 88%, var(--color-blue-500));
+  --action-secondary: var(--color-blue-100);
+  --action-secondary-hover: var(--color-blue-300);
+  --focus-ring: var(--color-blue-700);
+  --focus-ring-soft: color-mix(in srgb, var(--focus-ring) 18%, transparent);
+  --state-success: var(--color-success);
+  --state-warning: var(--color-warning);
+  --state-error: var(--color-error);
+  --state-success-surface: color-mix(in srgb, var(--color-success) 12%, transparent);
+  --state-success-border: color-mix(in srgb, var(--color-success) 28%, transparent);
+  --state-warning-surface: color-mix(in srgb, var(--color-warning) 12%, transparent);
+  --state-warning-border: color-mix(in srgb, var(--color-warning) 28%, transparent);
+  --state-error-surface: color-mix(in srgb, var(--color-error) 12%, transparent);
+  --state-error-border: color-mix(in srgb, var(--color-error) 28%, transparent);
+
+  --accent-metallic: var(--color-metallic-base);
+  --accent-metallic-strong: var(--color-metallic-strong);
+  --accent-metallic-medium: var(--color-metallic-medium);
+  --accent-metallic-light: var(--color-metallic-light);
+  --accent-metallic-soft: var(--color-metallic-soft);
+  --accent-metallic-border: var(--color-metallic-border);
+  --accent-metallic-glow: var(--color-metallic-glow);
+  --accent-metallic-shadow: var(--color-metallic-shadow);
+  --accent-crown: var(--accent-metallic);
+  --accent-star: var(--accent-metallic);
+  --accent-heart: var(--accent-metallic);
+  --accent-divider: var(--accent-metallic);
+  --accent-highlight: var(--accent-metallic-light);
+  --accent-water: var(--color-blue-500);
+  --accent-water-strong: var(--color-blue-700);
+  --accent-water-soft: color-mix(in srgb, var(--color-blue-500) 26%, transparent);
+  --accent-water-border: color-mix(in srgb, var(--color-blue-500) 38%, transparent);
+  --accent-water-drop: color-mix(in srgb, var(--color-blue-500) 54%, transparent);
+
+  --illustration-bear-warm: var(--color-metallic-light);
+  --illustration-bear-shadow: color-mix(
+    in srgb,
+    var(--color-metallic-base) 58%,
+    var(--color-black)
+  );
+  --illustration-bear-muzzle: color-mix(
+    in srgb,
+    var(--color-metallic-base) 24%,
+    var(--color-white)
+  );
+  --illustration-bear-line: color-mix(in srgb, var(--color-metallic-base) 42%, var(--color-black));
+  --illustration-bow: var(--color-blue-500);
+  --illustration-bow-shadow: color-mix(in srgb, var(--color-blue-700) 42%, transparent);
+
+  --cloud-surface: color-mix(in srgb, var(--color-white) 86%, transparent);
+  --cloud-shadow: color-mix(in srgb, var(--color-blue-300) 28%, transparent);
+  --sparkle-soft: color-mix(in srgb, var(--accent-star) 34%, transparent);
+  --sparkle-muted: color-mix(in srgb, var(--color-navy-900) 16%, transparent);
+  --water-line: color-mix(in srgb, var(--color-blue-500) 52%, transparent);
+
+  --gradient-page: linear-gradient(
+    180deg,
+    var(--surface-page) 0%,
+    var(--surface-alt) 52%,
+    var(--surface-page-bottom) 100%
+  );
+  --gradient-watercolor-warm: radial-gradient(
+    circle,
+    var(--accent-metallic-glow),
+    transparent 68%
+  );
+  --gradient-watercolor-blue: radial-gradient(
+    circle,
+    var(--accent-water-soft),
+    transparent 70%
+  );
+  --gradient-surface-card: linear-gradient(
+    140deg,
+    var(--surface-card-solid),
+    var(--surface-cream-soft)
+  );
+  --gradient-featured-card: radial-gradient(
+      circle at 86% 12%,
+      var(--accent-metallic-glow),
+      transparent 42%
+    ),
+    linear-gradient(135deg, var(--surface-card-solid), var(--surface-cream-soft));
+  --gradient-pool-card: radial-gradient(
+      circle at 88% 18%,
+      var(--accent-water-soft),
+      transparent 44%
+    ),
+    linear-gradient(145deg, var(--surface-card-solid), var(--surface-blue-soft));
+  --gradient-metallic: linear-gradient(
+    135deg,
+    var(--color-metallic-light) 0%,
+    var(--color-metallic-base) 35%,
+    var(--color-metallic-strong) 62%,
+    var(--color-metallic-medium) 82%,
+    var(--color-metallic-base) 100%
+  );
+  --gradient-metallic-soft: linear-gradient(
+    135deg,
+    var(--color-metallic-light),
+    var(--color-metallic-soft)
+  );
+  --gradient-bear: radial-gradient(
+      circle at 32% 26%,
+      var(--illustration-bear-muzzle),
+      transparent 18%
+    ),
+    linear-gradient(160deg, var(--illustration-bear-warm), var(--illustration-bear-shadow));
+  --gradient-water-lines: radial-gradient(
+      ellipse at 22% 58%,
+      transparent 38%,
+      var(--water-line) 40%,
+      transparent 43%
+    ),
+    radial-gradient(
+      ellipse at 66% 55%,
+      transparent 38%,
+      var(--water-line) 40%,
+      transparent 43%
+    );
+
+  --shadow-soft: 0 0.75rem 2rem color-mix(in srgb, var(--color-navy-900) 10%, transparent);
+  --shadow-elevated: 0 1.5rem 3.75rem color-mix(in srgb, var(--color-navy-900) 17%, transparent);
+  --shadow-warm: 0 1rem 2.75rem color-mix(in srgb, var(--color-cream-300) 62%, transparent);
+  --shadow-metallic: 0 0.75rem 2rem var(--color-metallic-shadow);
+  --shadow-focus: 0 0 0 0.25rem var(--focus-ring-soft);
+
+  --font-display: "Cormorant Garamond", Georgia, serif;
+  --font-script: "Allura", "Brush Script MT", cursive;
+  --font-interface: "Nunito Sans", "Avenir Next", system-ui, sans-serif;
+  --font-size-display: clamp(3.35rem, 15vw, 7.8rem);
+  --font-size-invite: clamp(1.7rem, 9vw, 4rem);
+  --font-size-script: clamp(3rem, 17vw, 6.8rem);
+  --font-size-h1: clamp(2.35rem, 10vw, 4.4rem);
+  --font-size-h2: clamp(1.75rem, 6vw, 2.85rem);
+  --font-size-h3: clamp(1.25rem, 3.6vw, 1.8rem);
+  --font-size-large: 1.0625rem;
+  --font-size-base: 1rem;
+  --font-size-small: 0.875rem;
+  --font-size-label: 0.78rem;
+  --line-height-tight: 1.02;
+  --line-height-heading: 1.14;
+  --line-height-body: 1.58;
+  --weight-regular: 400;
+  --weight-medium: 600;
+  --weight-bold: 700;
+
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  --space-20: 5rem;
+  --space-24: 6rem;
+
+  --radius-sm: 0.65rem;
+  --radius-md: 0.95rem;
+  --radius-lg: 1.35rem;
+  --radius-xl: 2rem;
+  --radius-organic: 2rem 1.35rem 2.35rem 1.45rem;
+  --radius-full: 999px;
+
+  --content-max: 76rem;
+  --preview-max: 64rem;
+  --touch-target: 2.75rem;
+  --duration-fast: 160ms;
+  --duration-base: 240ms;
+  --ease-standard: cubic-bezier(0.2, 0, 0, 1);
+  --z-base: 1;
+  --z-raised: 5;
+  --z-nav: 10;
+  --z-overlay: 20;
+}
