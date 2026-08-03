@@ -28,6 +28,7 @@ export const APP_CONFIG = Object.freeze({
   }),
   selectors: Object.freeze({
     eventText: "[data-event-text]",
+    eventHref: "[data-event-href]",
     routeLink: "a[href^='#/']",
     routeSection: "[data-route-section]",
     rsvpForm: "[data-rsvp-form]",

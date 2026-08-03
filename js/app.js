@@ -22,6 +22,18 @@ const hydrateEventContent = () => {
     setText(element, value);
   });
 
+  document.querySelectorAll(APP_CONFIG.selectors.eventHref).forEach((element) => {
+    const configPath = element.dataset.eventHref;
+    const value = getConfigValue(EVENT_CONFIG, configPath);
+
+    if (typeof value === "string" && value.trim()) {
+      element.setAttribute("href", value);
+    } else {
+      element.removeAttribute("href");
+      element.setAttribute("aria-disabled", "true");
+    }
+  });
+
   document.title = EVENT_CONFIG.event.title.replace(" de Valentino Gael Burgos León", " de Valentino Gael");
   const metaDescription = queryOptional("meta[name='description']");
   setText(metaDescription, null);

@@ -4,6 +4,11 @@ import {
 
 const MOBILE_QUERY = "(max-width: 899px)";
 
+const HOME_HASHES = new Set([
+  "",
+  "#/inicio",
+]);
+
 const isInteractiveElement = (element) => (
   element instanceof Element
   && element.matches(
@@ -81,6 +86,10 @@ export const createMobileSnapController = ({
   const sections =
     getSnapSections();
 
+  if ("scrollRestoration" in history) {
+    history.scrollRestoration = "manual";
+  }
+
   if (
     !enabled
     || sections.length === 0
@@ -133,6 +142,50 @@ export const createMobileSnapController = ({
 
     body.dataset.activeSnapLabel =
       section.dataset.snapLabel;
+  };
+
+  const resetInitialHomePosition = () => {
+    if (
+      !media.matches
+      || !HOME_HASHES.has(
+        window.location.hash,
+      )
+    ) {
+      return;
+    }
+
+    const reset = () => {
+      body.scrollTop = 0;
+      root.scrollTop = 0;
+      window.scrollTo(0, 0);
+
+      sections.forEach((section) => {
+        section.scrollTop = 0;
+      });
+
+      updateActiveSection(
+        sections[0],
+      );
+    };
+
+    reset();
+
+    requestAnimationFrame(() => {
+      reset();
+
+      requestAnimationFrame(() => {
+        reset();
+      });
+    });
+
+    window.setTimeout(
+      reset,
+      120,
+    );
+  };
+
+  const handlePageShow = () => {
+    resetInitialHomePosition();
   };
 
   const rebuildObserver = () => {
@@ -293,6 +346,14 @@ export const createMobileSnapController = ({
   );
 
   window.addEventListener(
+    "pageshow",
+    handlePageShow,
+    {
+      passive: true,
+    },
+  );
+
+  window.addEventListener(
     "resize",
     handleResize,
     {
@@ -329,6 +390,7 @@ export const createMobileSnapController = ({
 
   updateMode();
   updateActiveSection(sections[0]);
+  resetInitialHomePosition();
 
   return Object.freeze({
     enabled: true,
@@ -341,6 +403,11 @@ export const createMobileSnapController = ({
       media.removeEventListener(
         "change",
         updateMode,
+      );
+
+      window.removeEventListener(
+        "pageshow",
+        handlePageShow,
       );
 
       window.removeEventListener(

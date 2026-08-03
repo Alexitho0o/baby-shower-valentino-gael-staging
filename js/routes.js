@@ -13,8 +13,8 @@ export const ROUTES = Object.freeze({
   }),
   pool: Object.freeze({
     hash: "#/piscina",
-    sectionSelector: "[data-route-section='#/piscina']",
-    headingSelector: "#piscina-title",
+    sectionSelector: "[data-route-section='#/detalles']",
+    headingSelector: "#resumen-title",
     messageState: "preview",
   }),
   confirmation: Object.freeze({

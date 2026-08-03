@@ -521,3 +521,342 @@ a[aria-current="page"] {
     scroll-behavior: auto;
   }
 }
+
+/* H6B-R4: refinamiento real iPhone 14 Pro Max */
+
+.details-title {
+  display: grid;
+  gap: var(--space-1);
+}
+
+.details-title__event {
+  display: block;
+  color: var(--color-navy-700);
+  font-size: clamp(1.4rem, 6vw, 2rem);
+}
+
+.details-title__name {
+  display: block;
+  color: var(--color-navy-900);
+  font-size: clamp(2rem, 8vw, 3.25rem);
+  line-height: var(--line-height-tight);
+}
+
+.event-block--location::before {
+  content: "⌖";
+  font-family: var(--font-body);
+  font-size: 1.75rem;
+}
+
+.event-block__value--address {
+  font-family: var(--font-body);
+  font-size: clamp(1rem, 4.2vw, 1.2rem);
+  line-height: var(--line-height-heading);
+}
+
+.event-block__map {
+  width: fit-content;
+  min-height: 2.65rem;
+  margin-block-start: var(--space-2);
+  padding: 0.55rem 1rem;
+}
+
+.details-support {
+  display: flex;
+  justify-content: center;
+  margin-block-start: var(--space-4);
+}
+
+.details-pdf-link[aria-disabled="true"] {
+  pointer-events: none;
+}
+
+.welcome-photo-slot {
+  display: grid;
+  gap: var(--space-2);
+  max-width: 58rem;
+  margin: var(--space-4) auto 0;
+}
+
+.welcome-photo-slot__frame {
+  position: relative;
+  min-height: 14rem;
+  overflow: hidden;
+  border: 1px dashed var(--accent-metallic-border);
+  border-radius: var(--radius-xl);
+  background:
+    var(--gradient-watercolor-blue) center / 22rem 22rem no-repeat,
+    var(--surface-card);
+  box-shadow: var(--shadow-soft);
+}
+
+.welcome-photo-slot__mark {
+  position: absolute;
+  inset: 50% auto auto 50%;
+  width: 4.5rem;
+  height: 3.5rem;
+  border: 2px solid var(--border-blue);
+  border-radius: var(--radius-md);
+  transform: translate(-50%, -50%);
+}
+
+.welcome-photo-slot__mark::before {
+  position: absolute;
+  left: 0.65rem;
+  bottom: 0.6rem;
+  width: 2.8rem;
+  height: 1.65rem;
+  content: "";
+  background:
+    linear-gradient(
+      135deg,
+      transparent 0 24%,
+      var(--accent-water-drop) 25% 48%,
+      transparent 49%
+    ),
+    linear-gradient(
+      45deg,
+      transparent 0 32%,
+      var(--accent-metallic-soft) 33% 58%,
+      transparent 59%
+    );
+}
+
+.welcome-photo-slot figcaption {
+  color: var(--text-secondary);
+  font-size: var(--font-size-small);
+  text-align: center;
+}
+
+@media (max-width: 899px) {
+  .site-hero {
+    box-sizing: border-box;
+    grid-template-rows:
+      minmax(0, auto)
+      minmax(7rem, 1fr);
+    align-content: stretch;
+    gap: clamp(
+      0.45rem,
+      1.2dvh,
+      0.85rem
+    );
+    height: 100svh;
+    height: 100dvh;
+    min-height: 100svh;
+    min-height: 100dvh;
+    max-height: 100dvh;
+    padding-block:
+      max(
+        0.75rem,
+        env(safe-area-inset-top)
+      )
+      max(
+        0.75rem,
+        env(safe-area-inset-bottom)
+      );
+    padding-inline:
+      max(
+        var(--space-4),
+        env(safe-area-inset-left)
+      )
+      max(
+        var(--space-4),
+        env(safe-area-inset-right)
+      );
+  }
+
+  .site-hero__content {
+    display: grid;
+    gap: clamp(
+      0.24rem,
+      0.75dvh,
+      0.55rem
+    );
+    justify-items: center;
+    max-width: 100%;
+    margin-inline: auto;
+    text-align: center;
+  }
+
+  .site-hero__content > * {
+    margin-block: 0;
+  }
+
+  .site-hero .invite-script {
+    max-width: 100%;
+    font-size: clamp(
+      3.15rem,
+      14.8vw,
+      4.8rem
+    );
+    white-space: nowrap;
+  }
+
+  .site-hero .invite-name__main {
+    font-size: clamp(
+      2.4rem,
+      10.4vw,
+      4rem
+    );
+  }
+
+  .site-hero .invite-name__sub {
+    font-size: clamp(
+      0.82rem,
+      3.4vw,
+      1.15rem
+    );
+  }
+
+  .site-hero__phrase {
+    font-size: clamp(
+      1.05rem,
+      4.4vw,
+      1.42rem
+    );
+  }
+
+  .site-hero .cover-copy {
+    max-width: 32rem;
+    font-size: clamp(
+      0.92rem,
+      3.7vw,
+      1.05rem
+    );
+  }
+
+  .site-hero .cover-summary {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+    gap: clamp(
+      0.45rem,
+      1vw,
+      0.7rem
+    );
+    margin-block-start: 0;
+  }
+
+  .site-hero .cover-chip {
+    min-height: 0;
+    padding: 0.62rem 0.72rem;
+  }
+
+  .site-hero .ds-actions {
+    gap: 0.48rem;
+  }
+
+  .site-hero .ds-actions .btn {
+    min-height: 2.7rem;
+    padding: 0.55rem 0.9rem;
+  }
+
+  .site-hero__art {
+    align-self: end;
+    width: min(100%, 22rem);
+    height: clamp(
+      7rem,
+      19dvh,
+      10.5rem
+    );
+    min-height: clamp(
+      7rem,
+      19dvh,
+      10.5rem
+    );
+    max-height: 10.5rem;
+    margin-inline: auto;
+  }
+
+  .site-hero__art .bear {
+    width: min(9.5rem, 43vw);
+    height: 9.5rem;
+    transform: scale(0.78);
+    transform-origin: center bottom;
+  }
+
+  .event-summary {
+    gap: var(--space-3);
+  }
+
+  .event-block--location {
+    min-height: 8.5rem;
+  }
+
+  .welcome-section {
+    align-content: start;
+  }
+
+  .welcome-photo-slot__frame {
+    min-height: clamp(
+      11rem,
+      25dvh,
+      15rem
+    );
+  }
+}
+
+@media
+  (max-width: 899px)
+  and (max-height: 760px) {
+  .site-hero {
+    gap: 0.35rem;
+    padding-block: 0.45rem;
+  }
+
+  .site-hero .invite-script {
+    font-size: clamp(
+      2.8rem,
+      13vw,
+      3.8rem
+    );
+  }
+
+  .site-hero .invite-name__main {
+    font-size: clamp(
+      2.2rem,
+      9.8vw,
+      3.4rem
+    );
+  }
+
+  .site-hero .cover-copy {
+    font-size: 0.9rem;
+  }
+
+  .site-hero__art {
+    height: 6.8rem;
+    min-height: 6.8rem;
+  }
+
+  .site-hero__art .bear {
+    width: 8rem;
+    height: 8rem;
+    transform: scale(0.7);
+  }
+}
+
+@media (min-width: 900px) {
+  .welcome-section {
+    display: grid;
+    grid-template-columns:
+      minmax(0, 1.15fr)
+      minmax(18rem, 0.75fr);
+    align-items: center;
+    gap: var(--space-6);
+  }
+
+  .welcome-photo-slot {
+    width: 100%;
+    margin: 0;
+  }
+}
+
+/* H6B-R5: estabilidad de recarga en Safari */
+
+@media (max-width: 899px) {
+  html[data-mobile-snap="true"] body,
+  html[data-mobile-snap="true"]
+    [data-snap-section] {
+    overflow-anchor: none;
+  }
+}

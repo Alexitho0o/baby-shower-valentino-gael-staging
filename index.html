@@ -39,10 +39,6 @@
               <span class="cover-chip__label">Horario</span>
               <span class="cover-chip__value" data-event-text="schedule.display">12:00 a 19:00 hrs.</span>
             </div>
-            <div class="cover-chip">
-              <span class="cover-chip__label">Piscina</span>
-              <span class="cover-chip__value cover-chip__value--script" data-event-text="pool.headline">Habrá piscina</span>
-            </div>
           </div>
           <div class="ds-actions" aria-label="Acciones de la invitación">
             <a class="btn btn--primary" href="#/confirmacion">Confirmar asistencia</a>
@@ -76,7 +72,10 @@
         <section id="detalles" class="site-section ds-shell" aria-labelledby="resumen-title" data-route-section="#/detalles">
           <div class="section-heading section-heading--center">
             <p class="ds-kicker">Detalles confirmados</p>
-            <h2 id="resumen-title" tabindex="-1" data-event-text="event.title">Baby Shower de Valentino Gael Burgos León</h2>
+            <h2 id="resumen-title" class="details-title" tabindex="-1">
+              <span class="details-title__event">Baby Shower de</span>
+              <span class="details-title__name" data-event-text="child.fullName">Valentino Gael Burgos León</span>
+            </h2>
           </div>
           <div class="event-summary" aria-label="Resumen del evento">
             <article class="event-block event-block--icon event-block--date">
@@ -87,10 +86,31 @@
               <span class="event-block__label">Horario</span>
               <span class="event-block__value" data-event-text="schedule.display">12:00 a 19:00 hrs.</span>
             </article>
-            <article class="event-block event-block--icon event-block--pool">
-              <span class="event-block__label">Piscina</span>
-              <span class="event-block__value" data-event-text="pool.headline">Habrá piscina</span>
+            <article class="event-block event-block--icon event-block--location">
+              <span class="event-block__label">Ubicación</span>
+              <span class="event-block__value event-block__value--address" data-event-text="location.address">Pedro Víctor Contreras 2447</span>
+              <a
+                class="btn btn--secondary event-block__map"
+                href="https://maps.app.goo.gl/Fang5g6SCuzquJLH7?g_st=ic"
+                target="_blank"
+                rel="noopener noreferrer"
+                data-event-href="location.mapUrl"
+              >
+                Cómo llegar
+              </a>
             </article>
+          </div>
+
+          <div class="details-support" aria-label="Documentos del evento">
+            <a
+              class="btn btn--secondary details-pdf-link"
+              role="link"
+              aria-disabled="true"
+              tabindex="-1"
+              data-document-placeholder="invitationPdf"
+            >
+              Invitación en PDF · pendiente de subir
+            </a>
           </div>
         </section>
 
@@ -109,24 +129,20 @@
             <p>Te esperamos para vivir juntos una celebración tierna y familiar.</p>
             <div class="ornament-divider" aria-hidden="true"><span class="ornament-divider__mark"></span></div>
           </div>
+
+          <figure
+            class="welcome-photo-slot"
+            aria-label="Espacio reservado para una fotografía"
+            data-photo-placeholder
+          >
+            <div class="welcome-photo-slot__frame" aria-hidden="true">
+              <span class="welcome-photo-slot__mark"></span>
+            </div>
+            <figcaption>Espacio reservado para una fotografía</figcaption>
+          </figure>
         </section>
 
-        <section id="piscina" class="site-section ds-shell" aria-labelledby="piscina-title" data-route-section="#/piscina">
-          <article class="card card--pool pool-feature">
-            <div class="pool-feature__copy">
-              <p class="ds-kicker">Información destacada</p>
-              <h2 id="piscina-title" class="pool-feature__title" tabindex="-1" data-event-text="pool.headline">Habrá piscina</h2>
-              <p data-event-text="pool.reminder">No olvides tu traje de baño.</p>
-              <a class="btn btn--text pool-feature__link" href="#/piscina">Ver piscina</a>
-            </div>
-            <div class="pool-feature__visual" aria-hidden="true">
-              <span class="pool-ladder"></span>
-              <span class="pool-float"></span>
-              <span class="pool-drop pool-drop--one"></span>
-              <span class="pool-drop pool-drop--two"></span>
-            </div>
-          </article>
-        </section>
+
 
         <section class="site-section ds-shell practical-section" aria-labelledby="practica-title">
           <div class="section-heading section-heading--center">

@@ -37,9 +37,12 @@ export const EVENT_CONFIG = deepFreeze({
     reminder: "No olvides tu traje de baño.",
   },
   location: {
-    address: null,
+    address: "Pedro Víctor Contreras 2447",
     commune: null,
-    mapUrl: null,
+    mapUrl: "https://maps.app.goo.gl/Fang5g6SCuzquJLH7?g_st=ic",
+  },
+  documents: {
+    invitationPdfUrl: null,
   },
   contact: {
     phone: null,
