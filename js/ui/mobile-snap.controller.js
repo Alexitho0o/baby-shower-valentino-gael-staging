@@ -81,6 +81,8 @@ export const createMobileSnapController = ({
     document.documentElement;
   const body =
     document.body;
+  const page =
+    document.querySelector(".site-page");
   const media =
     window.matchMedia(MOBILE_QUERY);
   const sections =
@@ -92,6 +94,7 @@ export const createMobileSnapController = ({
 
   if (
     !enabled
+    || !page
     || sections.length === 0
   ) {
     return Object.freeze({
@@ -102,6 +105,8 @@ export const createMobileSnapController = ({
 
   let activeSection = sections[0];
   let observer = null;
+  let initialHomeGuard = false;
+  let resetTimers = [];
 
   sections.forEach(
     (section, index) => {
@@ -115,9 +120,22 @@ export const createMobileSnapController = ({
     },
   );
 
+  const clearResetTimers = () => {
+    resetTimers.forEach(
+      (timer) => clearTimeout(timer),
+    );
+    resetTimers = [];
+  };
+
+  const cancelInitialHomeGuard = () => {
+    initialHomeGuard = false;
+    clearResetTimers();
+  };
+
   const updateOverflowState = () => {
     const viewportHeight =
-      window.visualViewport?.height
+      page.clientHeight
+      || window.visualViewport?.height
       || window.innerHeight;
 
     sections.forEach((section) => {
@@ -154,34 +172,41 @@ export const createMobileSnapController = ({
       return;
     }
 
+    clearResetTimers();
+    initialHomeGuard = true;
+
     const reset = () => {
+      if (!initialHomeGuard) {
+        return;
+      }
+
+      page.scrollTop = 0;
       body.scrollTop = 0;
       root.scrollTop = 0;
       window.scrollTo(0, 0);
 
-      sections.forEach((section) => {
-        section.scrollTop = 0;
-      });
+      sections[0].scrollTop = 0;
 
       updateActiveSection(
         sections[0],
       );
     };
 
-    reset();
-
-    requestAnimationFrame(() => {
-      reset();
-
-      requestAnimationFrame(() => {
-        reset();
-      });
-    });
-
-    window.setTimeout(
-      reset,
+    [
+      0,
+      40,
       120,
-    );
+      280,
+      600,
+      1000,
+    ].forEach((delay) => {
+      resetTimers.push(
+        window.setTimeout(
+          reset,
+          delay,
+        ),
+      );
+    });
   };
 
   const handlePageShow = () => {
@@ -224,7 +249,7 @@ export const createMobileSnapController = ({
         }
       },
       {
-        root: body,
+        root: page,
         threshold: [
           0.5,
           0.65,
@@ -252,8 +277,11 @@ export const createMobileSnapController = ({
       requestAnimationFrame(() => {
         updateOverflowState();
         rebuildObserver();
+        resetInitialHomePosition();
       });
     } else {
+      cancelInitialHomeGuard();
+
       delete root.dataset.mobileSnap;
       delete body.dataset.mobileSnap;
       delete body.dataset
@@ -266,12 +294,22 @@ export const createMobileSnapController = ({
     }
   };
 
+  const getSectionTop = (section) => (
+    page.scrollTop
+    + section.getBoundingClientRect().top
+    - page.getBoundingClientRect().top
+  );
+
   const scrollToSection = (
     section,
   ) => {
-    section.scrollIntoView({
-      block: "start",
-      inline: "nearest",
+    cancelInitialHomeGuard();
+
+    page.scrollTo({
+      top: Math.max(
+        0,
+        getSectionTop(section),
+      ),
       behavior: prefersReducedMotion()
         ? "auto"
         : "smooth",
@@ -330,6 +368,7 @@ export const createMobileSnapController = ({
       return;
     }
 
+    cancelInitialHomeGuard();
     event.preventDefault();
     action();
   };
@@ -354,6 +393,14 @@ export const createMobileSnapController = ({
   );
 
   window.addEventListener(
+    "load",
+    handlePageShow,
+    {
+      passive: true,
+    },
+  );
+
+  window.addEventListener(
     "resize",
     handleResize,
     {
@@ -369,6 +416,20 @@ export const createMobileSnapController = ({
         passive: true,
       },
     );
+
+  [
+    "touchstart",
+    "pointerdown",
+    "wheel",
+  ].forEach((eventName) => {
+    page.addEventListener(
+      eventName,
+      cancelInitialHomeGuard,
+      {
+        passive: true,
+      },
+    );
+  });
 
   document.addEventListener(
     "keydown",
@@ -397,6 +458,7 @@ export const createMobileSnapController = ({
     sections,
     refresh: updateMode,
     destroy: () => {
+      cancelInitialHomeGuard();
       observer?.disconnect();
       resizeObserver?.disconnect();
 
@@ -411,6 +473,11 @@ export const createMobileSnapController = ({
       );
 
       window.removeEventListener(
+        "load",
+        handlePageShow,
+      );
+
+      window.removeEventListener(
         "resize",
         handleResize,
       );
@@ -420,6 +487,17 @@ export const createMobileSnapController = ({
           "resize",
           handleResize,
         );
+
+      [
+        "touchstart",
+        "pointerdown",
+        "wheel",
+      ].forEach((eventName) => {
+        page.removeEventListener(
+          eventName,
+          cancelInitialHomeGuard,
+        );
+      });
 
       document.removeEventListener(
         "keydown",

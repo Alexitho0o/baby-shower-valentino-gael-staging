@@ -25,7 +25,6 @@
             <span class="invite-name__main" data-event-text="child.principalName">VALENTINO</span>
             <span class="invite-name__sub" data-event-text="child.secondaryName">GAEL BURGOS LEÓN</span>
           </h1>
-          <p class="site-hero__phrase" data-event-text="event.concept">Un cielo de sueños para Valentino Gael.</p>
           <p class="cover-copy">
             Acompáñanos a celebrar la llegada de nuestro pequeño
             <span data-event-text="child.displayName">Valentino Gael</span>.
@@ -88,10 +87,10 @@
             </article>
             <article class="event-block event-block--icon event-block--location">
               <span class="event-block__label">Ubicación</span>
-              <span class="event-block__value event-block__value--address" data-event-text="location.address">Pedro Víctor Contreras 2447</span>
+              <span class="event-block__value event-block__value--address" data-event-text="location.address">Pedro Víctor Contreras 2447, Villa Alemana, Región de Valparaíso</span>
               <a
                 class="btn btn--secondary event-block__map"
-                href="https://maps.app.goo.gl/Fang5g6SCuzquJLH7?g_st=ic"
+                href="https://www.google.com/maps/search/?api=1&query=Pedro%20V%C3%ADctor%20Contreras%202447%2C%20Villa%20Alemana%2C%20Regi%C3%B3n%20de%20Valpara%C3%ADso%2C%20Chile"
                 target="_blank"
                 rel="noopener noreferrer"
                 data-event-href="location.mapUrl"
@@ -100,73 +99,114 @@
               </a>
             </article>
           </div>
-
-          <div class="details-support" aria-label="Documentos del evento">
-            <a
-              class="btn btn--secondary details-pdf-link"
-              role="link"
-              aria-disabled="true"
-              tabindex="-1"
-              data-document-placeholder="invitationPdf"
-            >
-              Invitación en PDF · pendiente de subir
-            </a>
-          </div>
         </section>
 
-        <section class="site-section ds-shell welcome-section" aria-labelledby="bienvenida-title">
-          <div class="card card--featured welcome-card">
-            <div class="section-heading">
-              <p class="ds-kicker">Con mucho cariño</p>
-              <h2 id="bienvenida-title">Queremos compartir este día tan especial contigo</h2>
-            </div>
-            <p>
-              Acompáñanos a celebrar la llegada de nuestro pequeño
-              <span data-event-text="child.displayName">Valentino Gael</span>.
-              Queremos compartir contigo una jornada llena de cariño, alegría y
-              momentos especiales.
-            </p>
-            <p>Te esperamos para vivir juntos una celebración tierna y familiar.</p>
-            <div class="ornament-divider" aria-hidden="true"><span class="ornament-divider__mark"></span></div>
-          </div>
+<section class="site-section ds-shell welcome-section" aria-labelledby="bienvenida-title">
+  <div class="card card--featured welcome-card">
+    <div class="section-heading">
+      <p class="ds-kicker">Con mucho cariño</p>
+      <h2 id="bienvenida-title">Queremos compartir este día tan especial contigo</h2>
+    </div>
 
-          <figure
-            class="welcome-photo-slot"
-            aria-label="Espacio reservado para una fotografía"
-            data-photo-placeholder
-          >
-            <div class="welcome-photo-slot__frame" aria-hidden="true">
-              <span class="welcome-photo-slot__mark"></span>
-            </div>
-            <figcaption>Espacio reservado para una fotografía</figcaption>
-          </figure>
-        </section>
+    <p class="welcome-card__lead">
+      Acompáñanos a celebrar la llegada de nuestro pequeño
+      <span data-event-text="child.fullName">Valentino Gael Burgos León</span>.
+    </p>
+
+    <p>
+      Queremos compartir contigo una jornada llena de cariño, alegría y
+      momentos especiales.
+    </p>
+
+    <p>Te esperamos para vivir juntos una celebración tierna y familiar.</p>
+
+    <div class="ornament-divider" aria-hidden="true">
+      <span class="ornament-divider__mark"></span>
+    </div>
+  </div>
+
+  <figure
+    class="welcome-photo-slot"
+    aria-label="Espacio reservado para una fotografía"
+    data-photo-placeholder
+  >
+    <div class="welcome-photo-slot__frame" aria-hidden="true">
+      <span class="welcome-photo-slot__mark"></span>
+    </div>
+    <figcaption>Fotografía familiar · pendiente de incorporar</figcaption>
+  </figure>
+</section>
+
+<section class="site-section ds-shell practical-section" aria-labelledby="practica-title">
+  <div class="section-heading section-heading--center">
+    <p class="ds-kicker">Información práctica</p>
+    <h2 id="practica-title">Para tener presente</h2>
+  </div>
+
+  <div class="practical-grid practical-grid--extended">
+    <article class="card">
+      <span class="badge">Evento</span>
+      <h3>Baby Shower</h3>
+      <p>
+        Te invitamos al Baby Shower de
+        <span data-event-text="child.fullName">Valentino Gael Burgos León</span>.
+      </p>
+    </article>
+
+    <article class="card">
+      <span class="badge">Horario</span>
+      <h3>Celebración</h3>
+      <p>
+        Te esperamos de
+        <span data-event-text="schedule.display">12:00 a 19:00 hrs.</span>
+      </p>
+    </article>
+
+    <article class="card">
+      <span class="badge">Piscina</span>
+      <h3>Recomendación</h3>
+      <p data-event-text="pool.reminder">No olvides tu traje de baño.</p>
+    </article>
+
+    <article class="card practical-resource-card">
+      <span class="badge">Programa</span>
+      <h3>Actividades y horarios propuestos</h3>
+      <p>
+        Bienvenida, almuerzo, cinco juegos, fotografías con familia,
+        amigos y todos los invitados, torta y despedida.
+      </p>
+      <a
+        class="btn btn--secondary practical-resource-link"
+        role="link"
+        aria-disabled="true"
+        tabindex="-1"
+        data-event-href="documents.agendaPdfUrl"
+      >
+        Ver programa en PDF · pendiente de subir
+      </a>
+    </article>
+
+    <article class="card practical-resource-card">
+      <span class="badge">Fotografías</span>
+      <h3>Álbum compartido</h3>
+      <p>
+        Los invitados podrán agregar y descargar las fotografías del
+        Baby Shower desde el álbum compartido de Apple.
+      </p>
+      <a
+        class="btn btn--secondary practical-resource-link"
+        role="link"
+        aria-disabled="true"
+        tabindex="-1"
+        data-event-href="documents.photoAlbumUrl"
+      >
+        Abrir álbum compartido · pendiente del enlace
+      </a>
+    </article>
+  </div>
+</section>
 
 
-
-        <section class="site-section ds-shell practical-section" aria-labelledby="practica-title">
-          <div class="section-heading section-heading--center">
-            <p class="ds-kicker">Información práctica</p>
-            <h2 id="practica-title">Para tener presente</h2>
-          </div>
-          <div class="practical-grid">
-            <article class="card">
-              <span class="badge">Evento</span>
-              <h3>Baby Shower</h3>
-              <p>Te invitamos al Baby Shower de <span data-event-text="child.displayName">Valentino Gael</span>.</p>
-            </article>
-            <article class="card">
-              <span class="badge">Horario</span>
-              <h3>Celebración</h3>
-              <p>Te esperamos de <span data-event-text="schedule.display">12:00 a 19:00 hrs.</span></p>
-            </article>
-            <article class="card">
-              <span class="badge">Piscina</span>
-              <h3>Recomendación</h3>
-              <p data-event-text="pool.reminder">No olvides tu traje de baño.</p>
-            </article>
-          </div>
-        </section>
 
         <section id="confirmacion" class="site-section ds-shell" aria-labelledby="confirmacion-title" data-route-section="#/confirmacion">
           <div class="section-heading section-heading--center">
@@ -209,11 +249,6 @@
               <input class="input" id="children" name="children" type="number" min="0" max="99" inputmode="numeric" placeholder="0" data-rsvp-field="children">
             </div>
 
-            <div class="field field--full">
-              <label for="companions">Nombres de los acompañantes</label>
-              <textarea class="textarea" id="companions" name="companions" maxlength="500" placeholder="Nombres de acompañantes" data-rsvp-field="companions"></textarea>
-            </div>
-
 
             <section class="gift-planner field--full" aria-labelledby="regalos-title" data-gift-section>
               <div class="section-heading">
@@ -249,9 +284,10 @@
               </div>
 
               <p class="message message--warning" data-gift-status>
-                Vista previa: todavía no se reserva ningún regalo. Cada
-                alternativa del catálogo tendrá un máximo de dos selecciones
-                cuando se habilite la confirmación en línea.
+                Vista previa: el contador automático se activará junto con la
+                confirmación en línea. Cada alternativa tendrá una referencia
+                de diez selecciones; al alcanzar ese nivel quedará marcada para
+                revisión y solo la administración del evento podrá cerrarla.
               </p>
             </section>
 
@@ -267,14 +303,49 @@
           </form>
         </section>
 
-        <section class="site-section ds-shell closing-section" aria-labelledby="cierre-title">
-          <div class="closing-card">
-            <span class="closing-crown" aria-hidden="true"></span>
-            <p class="invite-script">¡Te esperamos!</p>
-            <h2 id="cierre-title" data-event-text="child.displayName">Valentino Gael</h2>
-            <div class="ornament-divider" aria-hidden="true"><span class="ornament-divider__mark"></span></div>
-          </div>
-        </section>
+<section class="site-section ds-shell closing-section" aria-labelledby="cierre-title">
+  <div class="closing-card">
+    <span class="closing-crown" aria-hidden="true"></span>
+    <p class="invite-script">¡Te esperamos!</p>
+
+    <h2 id="cierre-title" data-event-text="child.fullName">
+      Valentino Gael Burgos León
+    </h2>
+
+    <p class="closing-contact-intro">
+      En caso de dudas, escríbenos directamente por WhatsApp.
+    </p>
+
+    <div class="contact-actions" aria-label="Contactos del Baby Shower">
+      <a
+        class="btn btn--secondary contact-link"
+        href="#"
+        target="_blank"
+        rel="noopener noreferrer"
+        data-event-href="contact.alexi.whatsappUrl"
+      >
+        <strong data-event-text="contact.alexi.name">Alexi</strong>
+        <span data-event-text="contact.alexi.phoneDisplay">+56 9 4513 0486</span>
+      </a>
+
+      <a
+        class="btn btn--secondary contact-link"
+        href="#"
+        target="_blank"
+        rel="noopener noreferrer"
+        data-event-href="contact.vivian.whatsappUrl"
+      >
+        <strong data-event-text="contact.vivian.name">Vivian</strong>
+        <span data-event-text="contact.vivian.phoneDisplay">+56 9 6619 1941</span>
+      </a>
+    </div>
+
+    <div class="ornament-divider" aria-hidden="true">
+      <span class="ornament-divider__mark"></span>
+    </div>
+  </div>
+</section>
+
       </main>
 
       <footer class="site-footer ds-shell">

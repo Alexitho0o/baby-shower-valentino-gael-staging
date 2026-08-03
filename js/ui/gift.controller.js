@@ -20,6 +20,8 @@ const createGiftOption = (item) => {
     document.createElement("strong");
   const note =
     document.createElement("small");
+  const counter =
+    document.createElement("small");
 
   label.className = "gift-option";
 
@@ -37,10 +39,25 @@ const createGiftOption = (item) => {
   note.textContent =
     item.capacity === null
       ? "Escribe tu idea para evitar repeticiones."
-      : "La disponibilidad se validará al confirmar.";
+      : `Contador automático pendiente · referencia ${item.capacity}.`;
 
-  content.append(name, note);
-  label.append(input, content);
+  counter.className =
+    "gift-option__counter";
+  counter.dataset.giftCounter = item.id;
+  counter.hidden = true;
+  counter.textContent =
+    "Conteo todavía no disponible.";
+
+  content.append(
+    name,
+    note,
+    counter,
+  );
+
+  label.append(
+    input,
+    content,
+  );
 
   return label;
 };

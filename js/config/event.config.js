@@ -8,11 +8,11 @@ const deepFreeze = (value) => {
 };
 
 export const EVENT_CONFIG = deepFreeze({
-  schemaVersion: 1,
+  schemaVersion: 2,
   event: {
     type: "Baby Shower",
     title: "Baby Shower de Valentino Gael Burgos León",
-    concept: "Un cielo de sueños para Valentino Gael.",
+    concept: null,
   },
   child: {
     fullName: "Valentino Gael Burgos León",
@@ -37,17 +37,29 @@ export const EVENT_CONFIG = deepFreeze({
     reminder: "No olvides tu traje de baño.",
   },
   location: {
-    address: "Pedro Víctor Contreras 2447",
-    commune: null,
-    mapUrl: "https://maps.app.goo.gl/Fang5g6SCuzquJLH7?g_st=ic",
+    address: "Pedro Víctor Contreras 2447, Villa Alemana, Región de Valparaíso",
+    commune: "Villa Alemana",
+    region: "Región de Valparaíso",
+    country: "Chile",
+    mapUrl: "https://www.google.com/maps/search/?api=1&query=Pedro%20V%C3%ADctor%20Contreras%202447%2C%20Villa%20Alemana%2C%20Regi%C3%B3n%20de%20Valpara%C3%ADso%2C%20Chile",
   },
   documents: {
-    invitationPdfUrl: null,
+    agendaPdfUrl: null,
+    photoAlbumUrl: null,
   },
   contact: {
-    phone: null,
-    email: null,
-    whatsapp: null,
+    alexi: {
+      name: "Alexi",
+      phoneE164: "+56945130486",
+      phoneDisplay: "+56 9 4513 0486",
+      whatsappUrl: "https://wa.me/56945130486?text=Hola%20Alexi%2C%20tengo%20una%20consulta%20sobre%20el%20Baby%20Shower%20de%20Valentino.",
+    },
+    vivian: {
+      name: "Vivian",
+      phoneE164: "+56966191941",
+      phoneDisplay: "+56 9 6619 1941",
+      whatsappUrl: "https://wa.me/56966191941?text=Hola%20Vivian%2C%20tengo%20una%20consulta%20sobre%20el%20Baby%20Shower%20de%20Valentino.",
+    },
   },
   rsvp: {
     deadline: null,

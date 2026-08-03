@@ -28,9 +28,12 @@ const hydrateEventContent = () => {
 
     if (typeof value === "string" && value.trim()) {
       element.setAttribute("href", value);
+      element.removeAttribute("aria-disabled");
+      element.removeAttribute("tabindex");
     } else {
       element.removeAttribute("href");
       element.setAttribute("aria-disabled", "true");
+      element.setAttribute("tabindex", "-1");
     }
   });
 

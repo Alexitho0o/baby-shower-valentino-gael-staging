@@ -56,8 +56,6 @@ export const normalizeRsvpInput = (input = {}) => ({
     normalizeInteger(input[RSVP_FIELD_NAMES.adults]),
   [RSVP_FIELD_NAMES.children]:
     normalizeInteger(input[RSVP_FIELD_NAMES.children]),
-  [RSVP_FIELD_NAMES.companions]:
-    normalizeSpaces(input[RSVP_FIELD_NAMES.companions]),
   [RSVP_FIELD_NAMES.giftSelections]:
     normalizeGiftSelections(
       input[RSVP_FIELD_NAMES.giftSelections],
@@ -139,17 +137,6 @@ export const validateRsvpInput = (input = {}) => {
       );
     }
   });
-
-  if (
-    data.companions.length
-    > schema.companions.maxLength
-  ) {
-    addError(
-      errors,
-      RSVP_FIELD_NAMES.companions,
-      "El listado de acompañantes es demasiado largo.",
-    );
-  }
 
   const invalidGifts =
     data.giftSelections.filter(

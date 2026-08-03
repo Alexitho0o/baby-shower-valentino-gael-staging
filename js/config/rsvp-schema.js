@@ -8,7 +8,6 @@ export const RSVP_FIELD_NAMES = Object.freeze({
   attendance: "attendance",
   adults: "adults",
   children: "children",
-  companions: "companions",
   giftSelections: "giftSelections",
   otherGift: "otherGift",
   comments: "comments",
@@ -20,7 +19,7 @@ export const RSVP_ATTENDANCE_VALUES = Object.freeze({
 });
 
 export const RSVP_SCHEMA = Object.freeze({
-  schemaVersion: 2,
+  schemaVersion: 3,
   fields: Object.freeze({
     fullName: Object.freeze({
       name: RSVP_FIELD_NAMES.fullName,
@@ -54,13 +53,6 @@ export const RSVP_SCHEMA = Object.freeze({
       min: 0,
       max: 99,
     }),
-    companions: Object.freeze({
-      name: RSVP_FIELD_NAMES.companions,
-      type: "string",
-      required: false,
-      trim: true,
-      maxLength: 500,
-    }),
     giftSelections: Object.freeze({
       name: RSVP_FIELD_NAMES.giftSelections,
       type: "array",
@@ -89,13 +81,17 @@ export const RSVP_SCHEMA = Object.freeze({
   }),
   businessRules: Object.freeze({
     adultTotalIncludesRespondent: true,
+    companionNamesCollected: false,
     giftSelectionOptional: true,
-    giftCatalogReservationLimit:
+    giftCatalogReferenceLimit:
       GIFT_CATALOG_CONFIG.maxReservationsPerCatalogItem,
+    giftClosureMode:
+      GIFT_CATALOG_CONFIG.governance.closureMode,
   }),
   pendingBusinessRules: Object.freeze([
-    "La disponibilidad de regalos deberá validarse de forma atómica cuando exista persistencia.",
-    "La agenda permanecerá oculta hasta que existan actividades y horarios confirmados.",
-    "El álbum permanecerá oculto hasta que exista un enlace aprobado.",
+    "El contador real de regalos requiere persistencia Supabase.",
+    "El cierre de una alternativa será una decisión administrativa.",
+    "El PDF permanecerá deshabilitado hasta recibir el archivo aprobado.",
+    "El álbum permanecerá deshabilitado hasta recibir el enlace aprobado.",
   ]),
 });
