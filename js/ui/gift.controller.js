@@ -38,8 +38,6 @@ const createBasicOption = (
     document.createElement("span");
   const name =
     document.createElement("strong");
-  const note =
-    document.createElement("small");
   const counter =
     createCounter(item.id);
 
@@ -48,29 +46,33 @@ const createBasicOption = (
 
   input.type = "checkbox";
   input.name =
-    RSVP_FIELD_NAMES.giftSelections;
+    RSVP_FIELD_NAMES
+      .giftSelections;
   input.value = item.id;
   input.dataset.rsvpField =
-    RSVP_FIELD_NAMES.giftSelections;
+    RSVP_FIELD_NAMES
+      .giftSelections;
 
   content.className =
     "gift-option__content";
 
   name.textContent = item.label;
+  content.append(name);
 
-  note.textContent =
-    item.capacity === null
-      ? "Escribe tu idea para evitar repeticiones."
-      : "Contador individual pendiente de activación.";
+  if (item.requiresDetail) {
+    const note =
+      document.createElement("small");
+
+    note.textContent =
+      "Selecciona esta opción y descríbela debajo.";
+
+    content.append(note);
+  }
 
   counter.hidden =
     !counterRuntimeEnabled;
 
-  content.append(
-    name,
-    note,
-    counter,
-  );
+  content.append(counter);
 
   label.append(
     input,
@@ -100,7 +102,7 @@ const createVariantOption = (
     document.createElement("div");
 
   const selectId =
-    `gift-${item.id}-size`;
+    `gift-${item.id}-variant`;
 
   card.className =
     "gift-option gift-option--variant";
@@ -113,28 +115,35 @@ const createVariantOption = (
   label.className =
     "gift-option__variant-label";
   label.htmlFor = selectId;
-  label.textContent = "Talla";
+  label.textContent =
+    item.variantLabel;
 
   select.className =
     "select gift-option__variant-select";
   select.id = selectId;
   select.name =
-    RSVP_FIELD_NAMES.giftSelections;
+    RSVP_FIELD_NAMES
+      .giftSelections;
   select.dataset.rsvpField =
-    RSVP_FIELD_NAMES.giftSelections;
+    RSVP_FIELD_NAMES
+      .giftSelections;
   select.dataset.giftVariant =
     item.id;
 
   emptyOption.value = "";
   emptyOption.textContent =
-    "Selecciona talla";
+    item.variantPlaceholder;
+  emptyOption.disabled = true;
+  emptyOption.selected = true;
 
   select.append(emptyOption);
 
   item.variants.forEach(
     (variant) => {
       const option =
-        document.createElement("option");
+        document.createElement(
+          "option"
+        );
 
       option.value =
         variant.reservationKey;
@@ -148,7 +157,7 @@ const createVariantOption = (
   note.className =
     "gift-option__variant-note";
   note.textContent =
-    "Cada talla tendrá un contador independiente.";
+    item.variantNote;
 
   counters.className =
     "gift-option__variant-counters";
@@ -196,46 +205,52 @@ export const createGiftController = ({
   catalog,
   selectors,
 }) => {
-  const optionsContainer = queryRequired(
-    selectors.giftOptions,
-    form,
-  );
+  const optionsContainer =
+    queryRequired(
+      selectors.giftOptions,
+      form,
+    );
 
-  const otherField = queryRequired(
-    selectors.otherGiftField,
-    form,
-  );
+  const otherField =
+    queryRequired(
+      selectors.otherGiftField,
+      form,
+    );
 
-  const otherInput = queryRequired(
-    selectors.otherGiftInput,
-    form,
-  );
+  const otherInput =
+    queryRequired(
+      selectors.otherGiftInput,
+      form,
+    );
 
   const fragment =
-    document.createDocumentFragment();
+    document
+      .createDocumentFragment();
 
   catalog.items.forEach((item) => {
     fragment.append(
       createGiftOption(
         item,
-        catalog.counterRuntimeEnabled,
+        catalog
+          .counterRuntimeEnabled,
       ),
     );
   });
 
-  optionsContainer.replaceChildren(
-    fragment,
-  );
+  optionsContainer
+    .replaceChildren(fragment);
 
   const updateOtherGift = () => {
-    const otherCheckbox = queryOptional(
-      `[name="${RSVP_FIELD_NAMES.giftSelections}"]`
-      + `[value="${GIFT_SELECTION_VALUES.other}"]`,
-      form,
-    );
+    const otherCheckbox =
+      queryOptional(
+        `[name="${RSVP_FIELD_NAMES.giftSelections}"]`
+        + `[value="${GIFT_SELECTION_VALUES.other}"]`,
+        form,
+      );
 
     const enabled =
-      otherCheckbox?.checked === true;
+      otherCheckbox?.checked
+      === true;
 
     otherField.hidden = !enabled;
     otherInput.disabled = !enabled;
@@ -245,10 +260,11 @@ export const createGiftController = ({
     }
   };
 
-  optionsContainer.addEventListener(
-    "change",
-    updateOtherGift,
-  );
+  optionsContainer
+    .addEventListener(
+      "change",
+      updateOtherGift,
+    );
 
   updateOtherGift();
 

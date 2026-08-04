@@ -14,52 +14,149 @@ const deepFreeze = (value) => {
   return value;
 };
 
-export const GIFT_SIZE_VARIANTS = deepFreeze([
-  {
-    id: "rn",
-    label: "RN",
-  },
-  {
-    id: "1_3m",
-    label: "1–3 meses",
-  },
-  {
-    id: "3_6m",
-    label: "3–6 meses",
-  },
-  {
-    id: "6m_plus",
-    label: "6 meses o más",
-  },
-]);
+export const GIFT_CLOTHING_SIZE_VARIANTS =
+  deepFreeze([
+    {
+      id: "rn",
+      label: "RN",
+    },
+    {
+      id: "1_3m",
+      label: "1–3 meses",
+    },
+    {
+      id: "3_6m",
+      label: "3–6 meses",
+    },
+    {
+      id: "6m_plus",
+      label: "6 meses o más",
+    },
+  ]);
 
-export const GIFT_SELECTION_VALUES = Object.freeze({
-  diapers: "diapers",
-  wipes: "wipes",
-  protectiveCream: "protective_cream",
-  babyWash: "baby_wash",
-  cottonCloths: "cotton_cloths",
-  bottle: "bottle",
-  pacifier: "pacifier",
-  teether: "teether",
-  bib: "bib",
-  bodysuit: "bodysuit",
-  pajamas: "pajamas",
-  romper: "romper",
-  shirt: "shirt",
-  pants: "pants",
-  outfit: "outfit",
-  socks: "socks",
-  hat: "hat",
-  blanket: "blanket",
-  hoodedTowel: "hooded_towel",
-  cribSheet: "crib_sheet",
-  rattle: "rattle",
-  babyBook: "baby_book",
-  bathToy: "bath_toy",
-  plush: "plush",
-  other: "other",
-});
+export const GIFT_DIAPER_SIZE_VARIANTS =
+  deepFreeze([
+    {
+      id: "rn",
+      label:
+        "RN · 0–1 mes · hasta 4,5 kg",
+    },
+    {
+      id: "rn_plus",
+      label:
+        "RN+ · 1–2 meses · 3,6–6,3 kg",
+    },
+    {
+      id: "p",
+      label:
+        "P · 2–3 meses · 5,4–8,1 kg",
+    },
+  ]);
+
+export const GIFT_BOTTLE_TYPE_VARIANTS =
+  deepFreeze([
+    {
+      id: "natural_response",
+      label: "Natural Response",
+    },
+    {
+      id: "anti_colic",
+      label: "Anticólica",
+    },
+    {
+      id: "glass",
+      label: "De vidrio",
+    },
+    {
+      id: "airfree",
+      label: "Con sistema AirFree",
+    },
+  ]);
+
+export const GIFT_MUSICAL_TOY_VARIANTS =
+  deepFreeze([
+    {
+      id: "piano",
+      label: "Piano",
+    },
+    {
+      id: "guitar",
+      label: "Guitarra",
+    },
+    {
+      id: "accordion",
+      label: "Acordeón",
+    },
+    {
+      id: "bass",
+      label: "Bajo",
+    },
+  ]);
+
+export const GIFT_BOOK_TYPE_VARIANTS =
+  deepFreeze([
+    {
+      id: "interactive",
+      label: "Interactivo",
+    },
+    {
+      id: "bedtime",
+      label: "Para dormir",
+    },
+    {
+      id: "musical",
+      label: "Musical",
+    },
+    {
+      id: "normal",
+      label: "Normal",
+    },
+  ]);
+
+export const GIFT_SELECTION_VALUES =
+  Object.freeze({
+    wipes: "wipes",
+    protectiveCream: "protective_cream",
+    babySoap: "baby_soap",
+    babyShampoo: "baby_shampoo",
+    cottonCloths: "cotton_cloths",
+    pacifier: "pacifier",
+    teether: "teether",
+    bib: "bib",
+    blanket: "blanket",
+    hoodedTowel: "hooded_towel",
+    cribSheet: "crib_sheet",
+    rattle: "rattle",
+    bathToy: "bath_toy",
+    plush: "plush",
+    diapers: "diapers",
+    bottle: "bottle",
+    musicalToy: "musical_toy",
+    babyBook: "baby_book",
+    bodysuit: "bodysuit",
+    pajamas: "pajamas",
+    romper: "romper",
+    shirt: "shirt",
+    pants: "pants",
+    outfit: "outfit",
+    socks: "socks",
+    hat: "hat",
+    other: "other",
+  });
+
+const buildVariants = (
+  itemId,
+  variants,
+) => (
+  variants.map(
+    (variant) => ({
+      ...variant,
+      reservationKey:
+        `${itemId}__${variant.id}`,
+      capacity: 10,
+    }),
+  )
+);
 
 const standardItem = (
   id,
@@ -69,178 +166,256 @@ const standardItem = (
   id,
   label,
   category,
+  optionKind: "basic",
   capacity: 10,
   requiresDetail: false,
   variants: [],
 });
 
-const sizedItem = (
+const variantItem = ({
   id,
   label,
-) => ({
+  category,
+  variantLabel,
+  variantPlaceholder,
+  variantNote,
+  variants,
+}) => ({
   id,
   label,
-  category: "clothing",
+  category,
+  optionKind: "variant",
   capacity: null,
   requiresDetail: false,
-  variants: GIFT_SIZE_VARIANTS.map(
-    (variant) => ({
-      ...variant,
-      reservationKey:
-        `${id}__${variant.id}`,
-      capacity: 10,
-    }),
+  variantLabel,
+  variantPlaceholder,
+  variantNote,
+  variants: buildVariants(
+    id,
+    variants,
   ),
 });
 
-export const GIFT_CATALOG_CONFIG = deepFreeze({
-  schemaVersion: 3,
-  enabled: true,
-  optional: true,
-  availabilityMode: "preview",
-  counterRuntimeEnabled: false,
-  counterSource: "supabase_rpc_pending",
-  selectionKeyMode:
-    "item_or_item_variant",
-  maxReservationsPerCatalogItem: 10,
-  governance: {
-    warningAt: 8,
-    reviewAt: 10,
-    closureMode: "admin_manual",
-    autoDisableAtLimit: false,
-    publicCountVisibleWhenRuntimeEnabled:
-      true,
-    sizedItemsHaveIndependentCounters: true,
-  },
-  introduction: {
-    title:
-      "¿Te gustaría llevar un presente?",
-    message:
-      "Tu presencia es lo más importante. Si deseas llevar un presente, puedes seleccionar una o más alternativas. Las prendas permiten escoger talla y cada talla se contará por separado.",
-  },
-  items: [
-    standardItem(
-      GIFT_SELECTION_VALUES.diapers,
-      "Pañales",
-      "hygiene",
-    ),
-    standardItem(
-      GIFT_SELECTION_VALUES.wipes,
-      "Toallitas húmedas",
-      "hygiene",
-    ),
-    standardItem(
-      GIFT_SELECTION_VALUES.protectiveCream,
-      "Crema protectora",
-      "hygiene",
-    ),
-    standardItem(
-      GIFT_SELECTION_VALUES.babyWash,
-      "Jabón o shampoo para bebé",
-      "hygiene",
-    ),
-    standardItem(
-      GIFT_SELECTION_VALUES.cottonCloths,
-      "Paños de algodón o muselinas",
-      "hygiene",
-    ),
-    standardItem(
-      GIFT_SELECTION_VALUES.bottle,
-      "Mamadera",
-      "feeding",
-    ),
-    standardItem(
-      GIFT_SELECTION_VALUES.pacifier,
-      "Chupete",
-      "feeding",
-    ),
-    standardItem(
-      GIFT_SELECTION_VALUES.teether,
-      "Mordedor",
-      "feeding",
-    ),
-    standardItem(
-      GIFT_SELECTION_VALUES.bib,
-      "Babero",
-      "feeding",
-    ),
-    sizedItem(
-      GIFT_SELECTION_VALUES.bodysuit,
-      "Body",
-    ),
-    sizedItem(
-      GIFT_SELECTION_VALUES.pajamas,
-      "Pijama",
-    ),
-    sizedItem(
-      GIFT_SELECTION_VALUES.romper,
-      "Enterito",
-    ),
-    sizedItem(
-      GIFT_SELECTION_VALUES.shirt,
-      "Polera",
-    ),
-    sizedItem(
-      GIFT_SELECTION_VALUES.pants,
-      "Pantalón",
-    ),
-    sizedItem(
-      GIFT_SELECTION_VALUES.outfit,
-      "Conjunto",
-    ),
-    sizedItem(
-      GIFT_SELECTION_VALUES.socks,
-      "Calcetines",
-    ),
-    sizedItem(
-      GIFT_SELECTION_VALUES.hat,
-      "Gorro",
-    ),
-    standardItem(
-      GIFT_SELECTION_VALUES.blanket,
-      "Manta",
-      "rest",
-    ),
-    standardItem(
-      GIFT_SELECTION_VALUES.hoodedTowel,
-      "Toalla con capucha",
-      "bath",
-    ),
-    standardItem(
-      GIFT_SELECTION_VALUES.cribSheet,
-      "Sábana de cuna",
-      "rest",
-    ),
-    standardItem(
-      GIFT_SELECTION_VALUES.rattle,
-      "Sonajero",
-      "stimulation",
-    ),
-    standardItem(
-      GIFT_SELECTION_VALUES.babyBook,
-      "Libro infantil",
-      "stimulation",
-    ),
-    standardItem(
-      GIFT_SELECTION_VALUES.bathToy,
-      "Juguete para el baño",
-      "stimulation",
-    ),
-    standardItem(
-      GIFT_SELECTION_VALUES.plush,
-      "Peluche",
-      "stimulation",
-    ),
-    {
-      id: GIFT_SELECTION_VALUES.other,
-      label: "Otro regalo",
-      category: "other",
-      capacity: null,
-      requiresDetail: true,
-      variants: [],
-    },
-  ],
+const sizedItem = (
+  id,
+  label,
+) => variantItem({
+  id,
+  label,
+  category: "clothing",
+  variantLabel: "Talla",
+  variantPlaceholder:
+    "Selecciona talla",
+  variantNote:
+    "Cada talla tendrá un contador independiente.",
+  variants:
+    GIFT_CLOTHING_SIZE_VARIANTS,
 });
+
+export const GIFT_CATALOG_CONFIG =
+  deepFreeze({
+    schemaVersion: 4,
+    enabled: true,
+    optional: true,
+    availabilityMode: "preview",
+    counterRuntimeEnabled: false,
+    counterSource:
+      "supabase_rpc_pending",
+    selectionKeyMode:
+      "item_or_item_variant",
+    maxReservationsPerCatalogItem:
+      10,
+    governance: {
+      warningAt: 8,
+      reviewAt: 10,
+      closureMode: "admin_manual",
+      autoDisableAtLimit: false,
+      publicCountVisibleWhenRuntimeEnabled:
+        true,
+      sizedItemsHaveIndependentCounters: true,
+      typedItemsHaveIndependentCounters: true,
+    },
+    introduction: {
+      title:
+        "¿Te gustaría llevar un presente?",
+      message:
+        "A medida que las personas elijan una opción, algunas podrán quedar no disponibles. Si igualmente quieres regalar algo de ese tipo, selecciona Otro regalo y descríbelo.",
+    },
+    items: [
+      standardItem(
+        GIFT_SELECTION_VALUES.wipes,
+        "Toallitas húmedas",
+        "hygiene",
+      ),
+      standardItem(
+        GIFT_SELECTION_VALUES
+          .protectiveCream,
+        "Crema protectora",
+        "hygiene",
+      ),
+      standardItem(
+        GIFT_SELECTION_VALUES.babySoap,
+        "Jabón para bebé",
+        "hygiene",
+      ),
+      standardItem(
+        GIFT_SELECTION_VALUES
+          .babyShampoo,
+        "Shampoo para bebé",
+        "hygiene",
+      ),
+      standardItem(
+        GIFT_SELECTION_VALUES
+          .cottonCloths,
+        "Paños de algodón o muselinas",
+        "hygiene",
+      ),
+      standardItem(
+        GIFT_SELECTION_VALUES.pacifier,
+        "Chupete",
+        "feeding",
+      ),
+      standardItem(
+        GIFT_SELECTION_VALUES.teether,
+        "Mordedor",
+        "feeding",
+      ),
+      standardItem(
+        GIFT_SELECTION_VALUES.bib,
+        "Babero",
+        "feeding",
+      ),
+      standardItem(
+        GIFT_SELECTION_VALUES.blanket,
+        "Manta",
+        "rest",
+      ),
+      standardItem(
+        GIFT_SELECTION_VALUES
+          .hoodedTowel,
+        "Toalla con capucha",
+        "bath",
+      ),
+      standardItem(
+        GIFT_SELECTION_VALUES.cribSheet,
+        "Sábana de cuna",
+        "rest",
+      ),
+      standardItem(
+        GIFT_SELECTION_VALUES.rattle,
+        "Sonajero",
+        "stimulation",
+      ),
+      standardItem(
+        GIFT_SELECTION_VALUES.bathToy,
+        "Juguete para el baño",
+        "stimulation",
+      ),
+      standardItem(
+        GIFT_SELECTION_VALUES.plush,
+        "Peluche",
+        "stimulation",
+      ),
+      variantItem({
+        id:
+          GIFT_SELECTION_VALUES.diapers,
+        label: "Pañales",
+        category: "hygiene",
+        variantLabel:
+          "Talla referencial",
+        variantPlaceholder:
+          "Selecciona talla",
+        variantNote:
+          "La edad es orientativa; el peso y el ajuste definen la talla.",
+        variants:
+          GIFT_DIAPER_SIZE_VARIANTS,
+      }),
+      variantItem({
+        id:
+          GIFT_SELECTION_VALUES.bottle,
+        label: "Mamadera",
+        category: "feeding",
+        variantLabel: "Tipo",
+        variantPlaceholder:
+          "Selecciona tipo",
+        variantNote:
+          "Cada tipo tendrá un contador independiente.",
+        variants:
+          GIFT_BOTTLE_TYPE_VARIANTS,
+      }),
+      variantItem({
+        id:
+          GIFT_SELECTION_VALUES
+            .musicalToy,
+        label: "Juguete musical",
+        category: "stimulation",
+        variantLabel: "Instrumento",
+        variantPlaceholder:
+          "Selecciona instrumento",
+        variantNote:
+          "Cada instrumento tendrá un contador independiente.",
+        variants:
+          GIFT_MUSICAL_TOY_VARIANTS,
+      }),
+      variantItem({
+        id:
+          GIFT_SELECTION_VALUES
+            .babyBook,
+        label: "Libro infantil",
+        category: "stimulation",
+        variantLabel:
+          "Tipo de libro",
+        variantPlaceholder:
+          "Selecciona tipo",
+        variantNote:
+          "Cada tipo tendrá un contador independiente.",
+        variants:
+          GIFT_BOOK_TYPE_VARIANTS,
+      }),
+      sizedItem(
+        GIFT_SELECTION_VALUES.bodysuit,
+        "Body",
+      ),
+      sizedItem(
+        GIFT_SELECTION_VALUES.pajamas,
+        "Pijama",
+      ),
+      sizedItem(
+        GIFT_SELECTION_VALUES.romper,
+        "Enterito",
+      ),
+      sizedItem(
+        GIFT_SELECTION_VALUES.shirt,
+        "Polera",
+      ),
+      sizedItem(
+        GIFT_SELECTION_VALUES.pants,
+        "Pantalón",
+      ),
+      sizedItem(
+        GIFT_SELECTION_VALUES.outfit,
+        "Conjunto",
+      ),
+      sizedItem(
+        GIFT_SELECTION_VALUES.socks,
+        "Calcetines",
+      ),
+      sizedItem(
+        GIFT_SELECTION_VALUES.hat,
+        "Gorro",
+      ),
+      {
+        id:
+          GIFT_SELECTION_VALUES.other,
+        label: "Otro regalo",
+        category: "other",
+        optionKind: "basic",
+        capacity: null,
+        requiresDetail: true,
+        variants: [],
+      },
+    ],
+  });
 
 export const GIFT_SELECTION_KEYS =
   Object.freeze(
