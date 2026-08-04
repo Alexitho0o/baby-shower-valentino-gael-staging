@@ -25,7 +25,7 @@ export const RSVP_ATTENDANCE_VALUES =
 
 export const RSVP_SCHEMA =
   Object.freeze({
-    schemaVersion: 5,
+    schemaVersion: 6,
     fields: Object.freeze({
       fullName: Object.freeze({
         name:

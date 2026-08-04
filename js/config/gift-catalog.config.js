@@ -38,38 +38,23 @@ export const GIFT_DIAPER_SIZE_VARIANTS =
   deepFreeze([
     {
       id: "rn",
-      label:
-        "RN · 0–1 mes · hasta 4,5 kg",
-    },
-    {
-      id: "rn_plus",
-      label:
-        "RN+ · 1–2 meses · 3,6–6,3 kg",
+      label: "RN",
+      capacity: 2,
     },
     {
       id: "p",
-      label:
-        "P · 2–3 meses · 5,4–8,1 kg",
-    },
-  ]);
-
-export const GIFT_BOTTLE_TYPE_VARIANTS =
-  deepFreeze([
-    {
-      id: "natural_response",
-      label: "Natural Response",
+      label: "P",
+      capacity: 4,
     },
     {
-      id: "anti_colic",
-      label: "Anticólica",
+      id: "m",
+      label: "M",
+      capacity: 5,
     },
     {
-      id: "glass",
-      label: "De vidrio",
-    },
-    {
-      id: "airfree",
-      label: "Con sistema AirFree",
+      id: "g",
+      label: "G",
+      capacity: 5,
     },
   ]);
 
@@ -120,7 +105,6 @@ export const GIFT_SELECTION_VALUES =
     babySoap: "baby_soap",
     babyShampoo: "baby_shampoo",
     cottonCloths: "cotton_cloths",
-    pacifier: "pacifier",
     teether: "teether",
     bib: "bib",
     blanket: "blanket",
@@ -130,7 +114,6 @@ export const GIFT_SELECTION_VALUES =
     bathToy: "bath_toy",
     plush: "plush",
     diapers: "diapers",
-    bottle: "bottle",
     musicalToy: "musical_toy",
     babyBook: "baby_book",
     bodysuit: "bodysuit",
@@ -153,7 +136,8 @@ const buildVariants = (
       ...variant,
       reservationKey:
         `${itemId}__${variant.id}`,
-      capacity: 10,
+      capacity:
+        variant.capacity ?? 10,
     }),
   )
 );
@@ -162,12 +146,13 @@ const standardItem = (
   id,
   label,
   category,
+  capacity = 10,
 ) => ({
   id,
   label,
   category,
   optionKind: "basic",
-  capacity: 10,
+  capacity,
   requiresDetail: false,
   variants: [],
 });
@@ -199,6 +184,10 @@ const variantItem = ({
 const sizedItem = (
   id,
   label,
+  {
+    excludedSizes = [],
+    capacityBySize = {},
+  } = {},
 ) => variantItem({
   id,
   label,
@@ -209,12 +198,28 @@ const sizedItem = (
   variantNote:
     "Cada talla tendrá un contador independiente.",
   variants:
-    GIFT_CLOTHING_SIZE_VARIANTS,
+    GIFT_CLOTHING_SIZE_VARIANTS
+      .filter(
+        (variant) => (
+          !excludedSizes.includes(
+            variant.id
+          )
+        ),
+      )
+      .map(
+        (variant) => ({
+          ...variant,
+          capacity:
+            capacityBySize[
+              variant.id
+            ] ?? 10,
+        }),
+      ),
 });
 
 export const GIFT_CATALOG_CONFIG =
   deepFreeze({
-    schemaVersion: 4,
+    schemaVersion: 5,
     enabled: true,
     optional: true,
     availabilityMode: "preview",
@@ -246,6 +251,7 @@ export const GIFT_CATALOG_CONFIG =
         GIFT_SELECTION_VALUES.wipes,
         "Toallitas húmedas",
         "hygiene",
+        40,
       ),
       standardItem(
         GIFT_SELECTION_VALUES
@@ -269,11 +275,6 @@ export const GIFT_CATALOG_CONFIG =
           .cottonCloths,
         "Paños de algodón o muselinas",
         "hygiene",
-      ),
-      standardItem(
-        GIFT_SELECTION_VALUES.pacifier,
-        "Chupete",
-        "feeding",
       ),
       standardItem(
         GIFT_SELECTION_VALUES.teether,
@@ -332,19 +333,6 @@ export const GIFT_CATALOG_CONFIG =
       }),
       variantItem({
         id:
-          GIFT_SELECTION_VALUES.bottle,
-        label: "Mamadera",
-        category: "feeding",
-        variantLabel: "Tipo",
-        variantPlaceholder:
-          "Selecciona tipo",
-        variantNote:
-          "Cada tipo tendrá un contador independiente.",
-        variants:
-          GIFT_BOTTLE_TYPE_VARIANTS,
-      }),
-      variantItem({
-        id:
           GIFT_SELECTION_VALUES
             .musicalToy,
         label: "Juguete musical",
@@ -375,6 +363,12 @@ export const GIFT_CATALOG_CONFIG =
       sizedItem(
         GIFT_SELECTION_VALUES.bodysuit,
         "Body",
+        {
+          excludedSizes: ["rn"],
+          capacityBySize: {
+            "6m_plus": 6,
+          },
+        },
       ),
       sizedItem(
         GIFT_SELECTION_VALUES.pajamas,
@@ -383,18 +377,30 @@ export const GIFT_CATALOG_CONFIG =
       sizedItem(
         GIFT_SELECTION_VALUES.romper,
         "Enterito",
+        {
+          excludedSizes: ["rn"],
+        },
       ),
       sizedItem(
         GIFT_SELECTION_VALUES.shirt,
         "Polera",
+        {
+          excludedSizes: ["rn"],
+        },
       ),
       sizedItem(
         GIFT_SELECTION_VALUES.pants,
         "Pantalón",
+        {
+          excludedSizes: ["rn"],
+        },
       ),
       sizedItem(
         GIFT_SELECTION_VALUES.outfit,
         "Conjunto",
+        {
+          excludedSizes: ["rn"],
+        },
       ),
       sizedItem(
         GIFT_SELECTION_VALUES.socks,
@@ -403,6 +409,12 @@ export const GIFT_CATALOG_CONFIG =
       sizedItem(
         GIFT_SELECTION_VALUES.hat,
         "Gorro",
+        {
+          excludedSizes: [
+            "3_6m",
+            "6m_plus",
+          ],
+        },
       ),
       {
         id:
