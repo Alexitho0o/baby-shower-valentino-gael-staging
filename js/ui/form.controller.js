@@ -87,12 +87,14 @@ export const setSubmittingState = (
   submitButton,
 ) => {
   submitButton.dataset.submitting = "true";
+  submitButton.disabled = true;
 };
 
 export const resetSubmittingState = (
   submitButton,
 ) => {
   delete submitButton.dataset.submitting;
+  submitButton.disabled = false;
 };
 
 export const createFormController = ({

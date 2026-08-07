@@ -1,9 +1,18 @@
-import { noopRsvpAdapter } from "./adapters/noop-rsvp.adapter.js";
+import {
+  createGatewayRsvpAdapter,
+} from "./adapters/gateway-rsvp.adapter.js";
+import {
+  noopRsvpAdapter,
+} from "./adapters/noop-rsvp.adapter.js";
 import { APP_CONFIG } from "./config/app.config.js";
 import { EVENT_CONFIG } from "./config/event.config.js";
 import { GIFT_CATALOG_CONFIG } from "./config/gift-catalog.config.js";
+import { RUNTIME_CONFIG } from "./config/runtime.config.js";
 import { createHashRouter } from "./router.js";
 import { createRsvpService } from "./services/rsvp.service.js";
+import {
+  createTurnstileService,
+} from "./services/turnstile.service.js";
 import { createFormController } from "./ui/form.controller.js";
 import { createGiftController } from "./ui/gift.controller.js";
 import { createMobileSnapController } from "./ui/mobile-snap.controller.js";
@@ -48,6 +57,41 @@ const hydrateEventContent = () => {
   }
 };
 
+const createConfiguredRsvpAdapter = () => {
+  const persistenceEnabled =
+    APP_CONFIG.featureFlags
+      .rsvpPersistenceEnabled === true;
+
+  const deploymentEnabled =
+    APP_CONFIG.featureFlags
+      .deploymentEnabled === true;
+
+  if (
+    !persistenceEnabled
+    || !deploymentEnabled
+  ) {
+    return noopRsvpAdapter;
+  }
+
+  const turnstileService =
+    createTurnstileService({
+      config:
+        RUNTIME_CONFIG.turnstile,
+      containerSelector:
+        APP_CONFIG.selectors
+          .turnstileContainer,
+    });
+
+  return createGatewayRsvpAdapter({
+    endpoint:
+      RUNTIME_CONFIG.gateway.endpoint,
+    requestTimeoutMs:
+      RUNTIME_CONFIG.gateway
+        .requestTimeoutMs,
+    turnstileService,
+  });
+};
+
 const initialize = () => {
   if (APP_CONFIG.featureFlags.eventHydrationEnabled) {
     hydrateEventContent();
@@ -59,7 +103,7 @@ const initialize = () => {
     persistenceEnabled: APP_CONFIG.featureFlags.rsvpPersistenceEnabled,
   });
   const rsvpService = createRsvpService({
-    adapter: noopRsvpAdapter,
+    adapter: createConfiguredRsvpAdapter(),
     featureFlags: APP_CONFIG.featureFlags,
   });
 
