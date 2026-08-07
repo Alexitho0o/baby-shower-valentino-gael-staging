@@ -31,7 +31,17 @@ const MESSAGE_STATE = Object.freeze({
 
 export const createMessageController = ({ statusElement, persistenceEnabled }) => {
   const setState = (state) => {
-    const safeState = persistenceEnabled ? state : (state === "idle" ? "preview" : state);
+    const safeState = persistenceEnabled
+      ? (
+          state === "preview"
+            ? "idle"
+            : state
+        )
+      : (
+          state === "idle"
+            ? "preview"
+            : state
+        );
     const message = MESSAGE_STATE[safeState] || MESSAGE_STATE.preview;
     statusElement.className = message.className;
     statusElement.textContent = message.text;
