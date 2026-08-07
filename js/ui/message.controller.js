@@ -1,7 +1,7 @@
 const MESSAGE_STATE = Object.freeze({
   idle: Object.freeze({
-    className: "message message--warning field--full",
-    text: "Vista previa: la confirmación en línea se habilitará en la próxima etapa.",
+    className: "message message--success field--full",
+    text: "Tu confirmación se enviará de forma segura cuando presiones Confirmar asistencia.",
   }),
   preview: Object.freeze({
     className: "message message--warning field--full",
@@ -13,15 +13,15 @@ const MESSAGE_STATE = Object.freeze({
   }),
   sending: Object.freeze({
     className: "message message--warning field--full",
-    text: "Estado de previsualización: todavía no se enviará ninguna confirmación.",
+    text: "Enviando tu confirmación...",
   }),
   success: Object.freeze({
     className: "message message--success field--full",
-    text: "Estado de previsualización: el flujo de éxito está preparado, pero no se ha recibido ninguna confirmación real.",
+    text: "Confirmación recibida. Gracias por responder.",
   }),
   error: Object.freeze({
     className: "message message--error field--full",
-    text: "Estado de previsualización: el flujo de error está preparado y no corresponde a un envío real.",
+    text: "No pudimos completar el envío. Inténtalo nuevamente en unos minutos.",
   }),
   disabled: Object.freeze({
     className: "message message--warning field--full",

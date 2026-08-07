@@ -92,18 +92,46 @@ const createConfiguredRsvpAdapter = () => {
   });
 };
 
+const livePersistenceEnabled = () => (
+  APP_CONFIG.featureFlags
+    .rsvpPersistenceEnabled === true
+  && APP_CONFIG.featureFlags
+    .deploymentEnabled === true
+);
+
+const hydrateRuntimeCopy = () => {
+  const modeHelp =
+    queryOptional(
+      APP_CONFIG.selectors
+        .rsvpModeHelp,
+    );
+
+  if (!modeHelp) {
+    return;
+  }
+
+  modeHelp.textContent =
+    livePersistenceEnabled()
+      ? "Tu respuesta se enviará de forma segura cuando confirmes."
+      : "Este prototipo no guarda ni envía la información ingresada.";
+};
+
 const initialize = () => {
   if (APP_CONFIG.featureFlags.eventHydrationEnabled) {
     hydrateEventContent();
   }
 
+  hydrateRuntimeCopy();
+
   const statusElement = queryRequired(APP_CONFIG.selectors.rsvpStatus);
   const messageController = createMessageController({
     statusElement,
-    persistenceEnabled: APP_CONFIG.featureFlags.rsvpPersistenceEnabled,
+    persistenceEnabled: livePersistenceEnabled(),
   });
+  const rsvpAdapter =
+    createConfiguredRsvpAdapter();
   const rsvpService = createRsvpService({
-    adapter: createConfiguredRsvpAdapter(),
+    adapter: rsvpAdapter,
     featureFlags: APP_CONFIG.featureFlags,
   });
 
@@ -125,6 +153,11 @@ const initialize = () => {
       form: formController.form,
       catalog: GIFT_CATALOG_CONFIG,
       selectors: APP_CONFIG.selectors,
+      availabilityProvider:
+        rsvpService
+          .getGiftAvailability,
+      liveAvailabilityEnabled:
+        livePersistenceEnabled(),
     });
   }
 

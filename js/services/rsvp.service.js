@@ -16,7 +16,25 @@ export const createRsvpService = ({ adapter, featureFlags }) => {
     return safeAdapter.submit(payload);
   };
 
+  const getGiftAvailability = async () => {
+    if (
+      !persistenceEnabled
+      || typeof safeAdapter.getAvailability
+        !== "function"
+    ) {
+      return Object.freeze({
+        ok: false,
+        status: "disabled",
+        code: "PERSISTENCE_DISABLED",
+        gifts: Object.freeze([]),
+      });
+    }
+
+    return safeAdapter.getAvailability();
+  };
+
   return Object.freeze({
+    getGiftAvailability,
     submit,
   });
 };

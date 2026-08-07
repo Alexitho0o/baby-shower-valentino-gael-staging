@@ -416,6 +416,19 @@ a[aria-current="page"] {
   box-shadow: var(--shadow-focus);
 }
 
+.gift-option--unavailable {
+  color: var(--text-disabled);
+  background: var(--surface-disabled);
+  cursor: not-allowed;
+}
+
+.gift-option--unavailable
+  .gift-option__content strong,
+.gift-option--unavailable
+  .gift-option__name {
+  color: var(--text-disabled);
+}
+
 .gift-option input {
   width: 1.25rem;
   height: 1.25rem;

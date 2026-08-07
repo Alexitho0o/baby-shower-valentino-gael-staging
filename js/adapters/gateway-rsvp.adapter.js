@@ -86,6 +86,76 @@ const errorResult = (code) => (
   })
 );
 
+const normalizeAvailabilityGift = (
+  gift,
+) => {
+  if (!isObject(gift)) {
+    return null;
+  }
+
+  const giftId =
+    typeof gift.giftId === "string"
+      ? gift.giftId
+      : "";
+
+  const remaining =
+    Number.isFinite(
+      Number(gift.remaining),
+    )
+      ? Number(gift.remaining)
+      : 0;
+
+  return Object.freeze({
+    giftId,
+    itemId:
+      typeof gift.itemId === "string"
+        ? gift.itemId
+        : "",
+    variantId:
+      typeof gift.variantId === "string"
+        ? gift.variantId
+        : "",
+    capacity:
+      Number.isFinite(
+        Number(gift.capacity),
+      )
+        ? Number(gift.capacity)
+        : null,
+    reserved:
+      Number.isFinite(
+        Number(gift.reserved),
+      )
+        ? Number(gift.reserved)
+        : 0,
+    remaining,
+    available:
+      gift.available === true
+      && remaining > 0,
+    manualClosed:
+      gift.manualClosed === true,
+  });
+};
+
+const normalizeAvailabilityBody = (
+  body,
+) => {
+  const gifts =
+    Array.isArray(body?.gifts)
+      ? body.gifts
+          .map(normalizeAvailabilityGift)
+          .filter(Boolean)
+      : [];
+
+  return Object.freeze({
+    ok: body?.ok === true,
+    status:
+      typeof body?.status === "string"
+        ? body.status
+        : "unknown",
+    gifts: Object.freeze(gifts),
+  });
+};
+
 export const createGatewayRsvpAdapter = ({
   endpoint,
   requestTimeoutMs,
@@ -138,6 +208,34 @@ export const createGatewayRsvpAdapter = ({
 
   let retryState = null;
 
+  const fetchWithTimeout = async (
+    requestOptions,
+  ) => {
+    const controller =
+      new AbortController();
+
+    let timeout = null;
+
+    try {
+      timeout = setTimeout(
+        () => controller.abort(),
+        requestTimeoutMs,
+      );
+
+      return await fetchImpl(
+        safeEndpoint,
+        {
+          ...requestOptions,
+          signal: controller.signal,
+        },
+      );
+    } finally {
+      if (timeout !== null) {
+        clearTimeout(timeout);
+      }
+    }
+  };
+
   const resolveRequestIdentity = (
     payload,
   ) => {
@@ -166,24 +264,13 @@ export const createGatewayRsvpAdapter = ({
       payload,
     );
 
-    const controller =
-      new AbortController();
-
-    let timeout = null;
-
     try {
       const turnstileToken =
         await turnstileService
           .getToken();
 
-      timeout = setTimeout(
-        () => controller.abort(),
-        requestTimeoutMs,
-      );
-
       const response =
-        await fetchImpl(
-          safeEndpoint,
+        await fetchWithTimeout(
           {
             method: "POST",
             headers: {
@@ -193,9 +280,8 @@ export const createGatewayRsvpAdapter = ({
             body: JSON.stringify({
               requestId,
               turnstileToken,
-              payload,
-            }),
-            signal: controller.signal,
+                payload,
+              }),
           },
         );
 
@@ -241,7 +327,7 @@ export const createGatewayRsvpAdapter = ({
           ? error.message
           : "";
 
-      if (controller.signal.aborted) {
+      if (error?.name === "AbortError") {
         return errorResult(
           "GATEWAY_TIMEOUT",
         );
@@ -258,10 +344,6 @@ export const createGatewayRsvpAdapter = ({
         "GATEWAY_UNAVAILABLE",
       );
     } finally {
-      if (timeout !== null) {
-        clearTimeout(timeout);
-      }
-
       try {
         turnstileService.reset();
       } catch {
@@ -270,7 +352,52 @@ export const createGatewayRsvpAdapter = ({
     }
   };
 
+  const getAvailability = async () => {
+    try {
+      const response =
+        await fetchWithTimeout({
+          method: "GET",
+          headers: {
+            Accept: "application/json",
+          },
+        });
+
+      const body =
+        await readResponseBody(
+          response,
+        );
+
+      const availability =
+        normalizeAvailabilityBody(
+          body,
+        );
+
+      if (
+        response.status === 200
+        && availability.ok
+        && availability.gifts.length > 0
+      ) {
+        return availability;
+      }
+
+      return errorResult(
+        "GATEWAY_AVAILABILITY_UNAVAILABLE",
+      );
+    } catch (error) {
+      if (error?.name === "AbortError") {
+        return errorResult(
+          "GATEWAY_TIMEOUT",
+        );
+      }
+
+      return errorResult(
+        "GATEWAY_UNAVAILABLE",
+      );
+    }
+  };
+
   return Object.freeze({
+    getAvailability,
     submit,
   });
 };
