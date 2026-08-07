@@ -71,19 +71,20 @@ export const mapAvailabilityByReservationKey = (
     }
 
     const remaining =
-      Number.isFinite(
-        Number(gift.remaining),
-      )
-        ? Number(gift.remaining)
-        : 0;
+      gift.remaining === null
+        ? null
+        : Number.isFinite(
+            Number(gift.remaining),
+          )
+          ? Number(gift.remaining)
+          : null;
 
     availabilityMap.set(
       key,
       Object.freeze({
         remaining,
         available:
-          gift.available === true
-          && remaining > 0,
+          gift.available === true,
         manualClosed:
           gift.manualClosed === true,
       }),
@@ -95,11 +96,25 @@ export const mapAvailabilityByReservationKey = (
 
 export const isGiftAvailable = (
   availability,
-) => (
-  availability?.available === true
-  && availability.manualClosed !== true
-  && Number(availability.remaining) > 0
-);
+) => {
+  if (
+    availability?.available !== true
+    || availability.manualClosed === true
+  ) {
+    return false;
+  }
+
+  if (availability.remaining === null) {
+    return true;
+  }
+
+  return (
+    Number.isFinite(
+      Number(availability.remaining),
+    )
+    && Number(availability.remaining) > 0
+  );
+};
 
 export const availabilityLabel = (
   availability,
@@ -114,6 +129,10 @@ export const availabilityLabel = (
 
   if (!isGiftAvailable(availability)) {
     return "Agotado";
+  }
+
+  if (availability.remaining === null) {
+    return "Disponible";
   }
 
   return `Disponibles: ${availability.remaining}`;

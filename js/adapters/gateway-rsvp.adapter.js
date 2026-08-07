@@ -86,6 +86,47 @@ const errorResult = (code) => (
   })
 );
 
+const normalizeOptionalNumber = (
+  value,
+) => {
+  if (value === null) {
+    return Object.freeze({
+      valid: true,
+      value: null,
+    });
+  }
+
+  if (
+    typeof value === "number"
+    && Number.isFinite(value)
+  ) {
+    return Object.freeze({
+      valid: true,
+      value,
+    });
+  }
+
+  if (
+    typeof value === "string"
+    && value.trim() !== ""
+  ) {
+    const numericValue =
+      Number(value);
+
+    if (Number.isFinite(numericValue)) {
+      return Object.freeze({
+        valid: true,
+        value: numericValue,
+      });
+    }
+  }
+
+  return Object.freeze({
+    valid: false,
+    value: null,
+  });
+};
+
 const normalizeAvailabilityGift = (
   gift,
 ) => {
@@ -98,12 +139,33 @@ const normalizeAvailabilityGift = (
       ? gift.giftId
       : "";
 
+  const capacity =
+    normalizeOptionalNumber(
+      gift.capacity,
+    );
+
   const remaining =
-    Number.isFinite(
-      Number(gift.remaining),
-    )
-      ? Number(gift.remaining)
-      : 0;
+    normalizeOptionalNumber(
+      gift.remaining,
+    );
+
+  const hasValidFiniteAvailability =
+    typeof remaining.value === "number"
+    && remaining.value > 0;
+
+  const hasValidUnlimitedAvailability =
+    capacity.value === null
+    && remaining.value === null;
+
+  const available =
+    gift.available === true
+    && gift.manualClosed !== true
+    && capacity.valid
+    && remaining.valid
+    && (
+      hasValidUnlimitedAvailability
+      || hasValidFiniteAvailability
+    );
 
   return Object.freeze({
     giftId,
@@ -116,21 +178,16 @@ const normalizeAvailabilityGift = (
         ? gift.variantId
         : "",
     capacity:
-      Number.isFinite(
-        Number(gift.capacity),
-      )
-        ? Number(gift.capacity)
-        : null,
+      capacity.value,
     reserved:
       Number.isFinite(
         Number(gift.reserved),
       )
         ? Number(gift.reserved)
         : 0,
-    remaining,
-    available:
-      gift.available === true
-      && remaining > 0,
+    remaining:
+      remaining.value,
+    available,
     manualClosed:
       gift.manualClosed === true,
   });

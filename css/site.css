@@ -1112,6 +1112,15 @@ a[aria-current="page"] {
   font-size: var(--font-size-small);
 }
 
+.gift-option__variant-counters {
+  display: grid;
+  gap: var(--space-1);
+}
+
+.gift-option__counter {
+  display: block;
+}
+
 .gift-option__variant-counters[hidden],
 .gift-option__counter[hidden] {
   display: none;
