@@ -6,6 +6,32 @@ import {
 } from "../utils/dom.js";
 
 const routes = Object.values(ROUTES);
+const HOME_HASH = ROUTES.home.hash;
+
+const resetHomeScrollPosition = () => {
+  const page = queryOptional(
+    ".site-page",
+  );
+  const root =
+    document.documentElement;
+  const body =
+    document.body;
+
+  if (
+    "scrollRestoration" in window.history
+  ) {
+    window.history.scrollRestoration =
+      "manual";
+  }
+
+  if (page) {
+    page.scrollTop = 0;
+  }
+
+  root.scrollTop = 0;
+  body.scrollTop = 0;
+  window.scrollTo(0, 0);
+};
 
 export const createRouteController = ({
   linkSelector,
@@ -38,6 +64,11 @@ export const createRouteController = ({
     route,
     immediate = false,
   ) => {
+    if (route.hash === HOME_HASH) {
+      resetHomeScrollPosition();
+      return;
+    }
+
     const section = queryOptional(
       route.sectionSelector,
     );

@@ -5,46 +5,16 @@ import {
   buildRsvpPayload,
 } from "../validation/rsvp.validator.js";
 import {
+  normalizeDiagnosticCode,
+} from "../diagnostics/rsvp-diagnostics.js";
+import {
   queryOptional,
   queryRequired,
 } from "../utils/dom.js";
 
-const CONTROLLED_DIAGNOSTIC_CODES =
-  new Set([
-    "TURNSTILE_API_LOAD_FAILED",
-    "TURNSTILE_API_UNAVAILABLE",
-    "TURNSTILE_CONTAINER_NOT_FOUND",
-    "TURNSTILE_RENDER_FAILED",
-    "TURNSTILE_EXECUTION_FAILED",
-    "TURNSTILE_INVALID_TOKEN",
-    "TURNSTILE_ERROR",
-    "TURNSTILE_EXPIRED",
-    "TURNSTILE_TIMEOUT",
-    "TURNSTILE_UNSUPPORTED",
-    "TURNSTILE_REJECTED",
-    "TURNSTILE_ACTION_MISMATCH",
-    "TURNSTILE_HOSTNAME_MISMATCH",
-    "TURNSTILE_UNAVAILABLE",
-    "GATEWAY_REQUEST_REJECTED",
-    "GATEWAY_TIMEOUT",
-    "GATEWAY_UNAVAILABLE",
-    "IDEMPOTENCY_CONFLICT",
-    "RSVP_VALIDATION_FAILED",
-    "GIFT_UNAVAILABLE",
-  ]);
-
-export const normalizeDiagnosticCode = (
-  code,
-) => (
-  typeof code === "string"
-  && (
-    CONTROLLED_DIAGNOSTIC_CODES
-      .has(code)
-    || /^TURNSTILE_CLIENT_[0-9]{3,8}$/.test(code)
-  )
-    ? code
-    : ""
-);
+export {
+  normalizeDiagnosticCode,
+};
 
 export const renderDiagnosticCode = ({
   diagnosticElement,
