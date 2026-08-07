@@ -4,6 +4,21 @@ const controlledError = (code) => (
   new Error(code)
 );
 
+export const normalizeTurnstileClientErrorCode = (
+  errorCode,
+) => {
+  const safeCode =
+    typeof errorCode === "number"
+      ? String(errorCode)
+      : typeof errorCode === "string"
+        ? errorCode.trim()
+        : "";
+
+  return /^[0-9]{3,8}$/.test(safeCode)
+    ? `TURNSTILE_CLIENT_${safeCode}`
+    : "TURNSTILE_ERROR";
+};
+
 const validateScriptUrl = (
   scriptUrl,
 ) => {
@@ -237,9 +252,11 @@ export const createTurnstileService = ({
         theme: config.theme,
         language: config.language,
         callback: settleSuccess,
-        "error-callback": () => {
+        "error-callback": (errorCode) => {
           settleFailure(
-            "TURNSTILE_ERROR",
+            normalizeTurnstileClientErrorCode(
+              errorCode,
+            ),
           );
           return true;
         },

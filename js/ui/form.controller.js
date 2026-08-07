@@ -9,6 +9,64 @@ import {
   queryRequired,
 } from "../utils/dom.js";
 
+const CONTROLLED_DIAGNOSTIC_CODES =
+  new Set([
+    "TURNSTILE_API_LOAD_FAILED",
+    "TURNSTILE_API_UNAVAILABLE",
+    "TURNSTILE_CONTAINER_NOT_FOUND",
+    "TURNSTILE_RENDER_FAILED",
+    "TURNSTILE_EXECUTION_FAILED",
+    "TURNSTILE_INVALID_TOKEN",
+    "TURNSTILE_ERROR",
+    "TURNSTILE_EXPIRED",
+    "TURNSTILE_TIMEOUT",
+    "TURNSTILE_UNSUPPORTED",
+    "TURNSTILE_REJECTED",
+    "TURNSTILE_ACTION_MISMATCH",
+    "TURNSTILE_HOSTNAME_MISMATCH",
+    "TURNSTILE_UNAVAILABLE",
+    "GATEWAY_REQUEST_REJECTED",
+    "GATEWAY_TIMEOUT",
+    "GATEWAY_UNAVAILABLE",
+    "IDEMPOTENCY_CONFLICT",
+    "RSVP_VALIDATION_FAILED",
+    "GIFT_UNAVAILABLE",
+  ]);
+
+export const normalizeDiagnosticCode = (
+  code,
+) => (
+  typeof code === "string"
+  && (
+    CONTROLLED_DIAGNOSTIC_CODES
+      .has(code)
+    || /^TURNSTILE_CLIENT_[0-9]{3,8}$/.test(code)
+  )
+    ? code
+    : ""
+);
+
+export const renderDiagnosticCode = ({
+  diagnosticElement,
+  diagnosticEnabled,
+  code,
+}) => {
+  if (!diagnosticElement) {
+    return;
+  }
+
+  const safeCode =
+    diagnosticEnabled
+      ? normalizeDiagnosticCode(code)
+      : "";
+
+  diagnosticElement.textContent =
+    safeCode
+      ? `Código de diagnóstico: ${safeCode}`
+      : "";
+  diagnosticElement.hidden = !safeCode;
+};
+
 const fieldErrorId = (fieldName) => (
   `${fieldName}-error`
 );
@@ -111,14 +169,34 @@ export const createFormController = ({
     form,
   );
 
+  const diagnosticElement =
+    queryOptional(
+      config.selectors.rsvpDiagnostic,
+      form,
+    );
+
   const persistenceEnabled =
     config.featureFlags
       .rsvpPersistenceEnabled === true;
 
+  const diagnosticEnabled =
+    config.featureFlags
+      .rsvpDiagnosticEnabled === true;
+
+  const clearDiagnostic = () => {
+    renderDiagnosticCode({
+      diagnosticElement,
+      diagnosticEnabled: false,
+      code: "",
+    });
+  };
+
   submitButton.disabled = true;
+  clearDiagnostic();
 
   if (!persistenceEnabled) {
     messageController?.setState("preview");
+    clearDiagnostic();
 
     return Object.freeze({
       form,
@@ -140,6 +218,7 @@ export const createFormController = ({
         () => resetSubmittingState(
           submitButton,
         ),
+      clearDiagnostic,
     });
   }
 
@@ -150,6 +229,7 @@ export const createFormController = ({
     async (event) => {
       event.preventDefault();
       clearFieldErrors(form);
+      clearDiagnostic();
 
       const payloadResult =
         buildRsvpPayload(
@@ -186,6 +266,14 @@ export const createFormController = ({
           ? "success"
           : "error",
       );
+
+      renderDiagnosticCode({
+        diagnosticElement,
+        diagnosticEnabled:
+          !response.ok
+          && diagnosticEnabled,
+        code: response.code,
+      });
     },
   );
 
@@ -209,5 +297,6 @@ export const createFormController = ({
       () => resetSubmittingState(
         submitButton,
       ),
+    clearDiagnostic,
   });
 };

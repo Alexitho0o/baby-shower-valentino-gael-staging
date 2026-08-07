@@ -12,6 +12,31 @@ const CONTROLLED_TURNSTILE_ERRORS =
     "TURNSTILE_UNSUPPORTED",
   ]);
 
+const CONTROLLED_GATEWAY_ERRORS =
+  new Set([
+    "TURNSTILE_REJECTED",
+    "TURNSTILE_ACTION_MISMATCH",
+    "TURNSTILE_HOSTNAME_MISMATCH",
+    "TURNSTILE_UNAVAILABLE",
+    "GATEWAY_REQUEST_REJECTED",
+    "GATEWAY_TIMEOUT",
+    "GATEWAY_UNAVAILABLE",
+    "IDEMPOTENCY_CONFLICT",
+    "RSVP_VALIDATION_FAILED",
+    "GIFT_UNAVAILABLE",
+  ]);
+
+export const isControlledDiagnosticCode = (
+  code,
+) => (
+  typeof code === "string"
+  && (
+    CONTROLLED_TURNSTILE_ERRORS.has(code)
+    || CONTROLLED_GATEWAY_ERRORS.has(code)
+    || /^TURNSTILE_CLIENT_[0-9]{3,8}$/.test(code)
+  )
+);
+
 const isObject = (value) => (
   typeof value === "object"
   && value !== null
@@ -82,7 +107,9 @@ const errorResult = (code) => (
   Object.freeze({
     ok: false,
     status: "error",
-    code,
+    code: isControlledDiagnosticCode(code)
+      ? code
+      : "GATEWAY_REQUEST_REJECTED",
   })
 );
 
@@ -390,10 +417,7 @@ export const createGatewayRsvpAdapter = ({
         );
       }
 
-      if (
-        CONTROLLED_TURNSTILE_ERRORS
-          .has(message)
-      ) {
+      if (isControlledDiagnosticCode(message)) {
         return errorResult(message);
       }
 
