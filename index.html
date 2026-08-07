@@ -224,17 +224,6 @@
           </div>
 
           <form class="card form-grid rsvp-form" aria-describedby="rsvp-status" data-rsvp-form novalidate>
-            <p id="rsvp-status" class="message message--warning field--full" aria-live="polite" aria-atomic="true" data-rsvp-status>
-              Vista previa: la confirmación en línea se habilitará en la próxima etapa.
-            </p>
-            <p class="help-text field--full" hidden data-rsvp-diagnostic></p>
-
-            <div
-              class="field--full turnstile-slot"
-              aria-label="Verificación de seguridad"
-              data-turnstile-container
-            ></div>
-
             <div class="field field--full">
               <label for="fullName">Nombre y apellido</label>
               <input class="input" id="fullName" name="fullName" type="text" autocomplete="name" placeholder="Nombre y apellido" data-rsvp-field="fullName">
@@ -312,9 +301,20 @@
               <span class="help-text" data-rsvp-mode-help>Este prototipo no guarda ni envía la información ingresada.</span>
             </div>
 
+            <div
+              class="field--full turnstile-slot"
+              aria-label="Verificación de seguridad"
+              data-turnstile-container
+            ></div>
+
             <div class="field--full form-actions">
               <button class="btn btn--primary" type="submit" disabled data-rsvp-submit>Confirmar asistencia</button>
             </div>
+
+            <p id="rsvp-status" class="message message--warning field--full" aria-live="polite" aria-atomic="true" data-rsvp-status>
+              Vista previa: la confirmación en línea se habilitará en la próxima etapa.
+            </p>
+            <p class="help-text field--full" hidden data-rsvp-diagnostic></p>
           </form>
         </section>
 
