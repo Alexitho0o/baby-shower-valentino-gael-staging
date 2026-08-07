@@ -1,13 +1,13 @@
 {
   "environment": "public-staging",
-  "rsvp_mode": "validation",
+  "rsvp_mode": "disabled",
   "source_repository": "Alexitho0o/baby-shower-valentino-gael",
-  "source_site_commit": "65eb7046cea6af4dfe17aac2cf70cd54e5adf636",
+  "source_site_commit": "2f63d411a618c15afd6f23e6f092fc40396ed26e",
   "deployment_repository": "Alexitho0o/baby-shower-valentino-gael-staging",
-  "generated_at_utc": "2026-08-07T14:56:58+00:00",
-  "rsvp_enabled": true,
-  "persistence_enabled": true,
-  "supabase_connected": true,
+  "generated_at_utc": "2026-08-07T15:19:21+00:00",
+  "rsvp_enabled": false,
+  "persistence_enabled": false,
+  "supabase_connected": false,
   "analytics_enabled": false,
   "production": false
 }
